@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/phalcon-microblogging.iml" filepath="$PROJECT_DIR$/.idea/phalcon-microblogging.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.ideas/phalcon-microblogging.iml" filepath="$PROJECT_DIR$/.ideas/phalcon-microblogging.iml" />
     </modules>
   </component>
 </project>
