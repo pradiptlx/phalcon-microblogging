@@ -2,10 +2,10 @@
 
 return array(
     'microblog' => [
-        'namespace' => 'Dex\microblog',
-        'webControllerNamespace' => 'Dex\microblog\Presentation\Web\Controller',
+        'namespace' => 'Dex\Microblog',
+        'webControllerNamespace' => 'Dex\Microblog\Presentation\Web\Controller',
         'apiControllerNamespace' => '',
-        'className' => 'Dex\microblog\Module',
+        'className' => 'Dex\Microblog\Module',
         'path' => APP_PATH . '/modules/dashboard/Module.php',
         'defaultRouting' => true,
         'defaultController' => 'index',
