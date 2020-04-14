@@ -3,4 +3,4 @@ apps/cache
 apps/.env
 composer.lock
 .vscode
-/.ideas/
+.idea
