@@ -1,11 +1,11 @@
 <?php
 
 return array(
-    'dashboard' => [
-        'namespace' => 'Its\Example\Dashboard',
-        'webControllerNamespace' => 'Its\Example\Dashboard\Presentation\Web\Controller',
+    'microblog' => [
+        'namespace' => 'Dex\microblog',
+        'webControllerNamespace' => 'Dex\microblog\Presentation\Web\Controller',
         'apiControllerNamespace' => '',
-        'className' => 'Its\Example\Dashboard\Module',
+        'className' => 'Dex\microblog\Module',
         'path' => APP_PATH . '/modules/dashboard/Module.php',
         'defaultRouting' => true,
         'defaultController' => 'index',
