@@ -15,11 +15,14 @@ class UserId
         $this->id = $id ?: Uuid::uuid4()->toString();
     }
 
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
-    // TODO: Create post->userId === $this->>id relation
-//    public function equals()
+    public function isEqual(UserId $userId): bool
+    {
+        return $this->id === $userId;
+    }
 
 }

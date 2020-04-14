@@ -3,8 +3,6 @@
 
 namespace Dex\Microblog\Core\Domain\Model;
 
-use Phalcon\Mvc\Model;
-
 class UserModel
 {
 
@@ -63,16 +61,25 @@ class UserModel
         return $this->roleUser->getPermission();
     }
 
+    /**
+     * @param string $role
+     * @return RoleModel
+     */
     // TODO: Setter role
-    public function setRoleUser()
+    public function setRoleUser(string $role) : RoleModel
     {
+        $this->roleUser->setRole($role);
 
+        return $this->roleUser;
     }
 
+    /**
+     * @param array $perm
+     */
     // TODO: Setter perm user
-    public function setPermissionUser()
+    public function setPermissionUser(array $perm = null)
     {
-
+        $this->roleUser->setListPermission($perm);
     }
 
 }
