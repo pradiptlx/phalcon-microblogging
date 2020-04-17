@@ -10,7 +10,7 @@ class UserId
 
     private string $id;
 
-    public function __construct($id = null)
+    public function __construct($id = "")
     {
         $this->id = $id ?: Uuid::uuid4()->toString();
     }

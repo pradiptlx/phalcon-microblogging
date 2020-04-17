@@ -37,11 +37,19 @@ class StatsPostModel
         $this->commentCounter--;
     }
 
+    /**
+     * Get reblog counts
+     * @return int
+     */
     public function getReblogCounter(): int
     {
         return $this->reblogCounter;
     }
 
+    /**
+     * Get comment counts
+     * @return int
+     */
     public function getCommentCounter(): int
     {
         return $this->commentCounter;
