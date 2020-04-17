@@ -1,6 +1,6 @@
 <?php
 
-namespace Its\Example\Dashboard\Presentation\Web\Controller;
+namespace Dex\Microblog\Presentation\Web\Controller;
 
 use Phalcon\Mvc\Controller;
 

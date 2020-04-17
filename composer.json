@@ -1,7 +1,10 @@
 {
     "require": {
         "vlucas/phpdotenv": "^3.3",
-        "ramsey/uuid": "^4.0"
+        "ramsey/uuid": "^4.0",
+      "ext-mbstring": "*",
+      "ext-pdo": "*",
+        "robmorgan/phinx": "^0.12.1"
     },
     "require-dev": {
         "phalcon/ide-stubs": "^4.0"

@@ -331,7 +331,7 @@ class Sqlsrv extends \Phalcon\Db\Adapter\Pdo\AbstractPdo
 
         $statement = null;
         if (is_array($bindParams)) {
-            
+
             if (strpos($sqlStatement, 'exec') !== false) {
                 $statement = $pdo->prepare($sqlStatement, array(\PDO::ATTR_CURSOR => $cursor));
             } else {

@@ -1,8 +1,10 @@
 <?php
 
+use Phalcon\Mvc\Router;
+
 $container['router'] = function() use ($defaultModule, $modules) {
 
-	$router = new \Phalcon\Mvc\Router(false);
+	$router = new Router(false);
 	$router->clear();
 
 	/**
@@ -14,13 +16,13 @@ $container['router'] = function() use ($defaultModule, $modules) {
 	    'controller' => isset($modules[$defaultModule]['defaultController']) ? $modules[$defaultModule]['defaultController'] : 'index',
 	    'action' => isset($modules[$defaultModule]['defaultAction']) ? $modules[$defaultModule]['defaultAction'] : 'index'
 	]);
-	
+
 	/**
 	 * Not Found Routing
 	 */
 	$router->notFound(
 		[
-			'namespace' => 'Its\Common\Controller',
+			'namespace' => 'Dex\Microblog\Controller',
 			'controller' => 'error',
 			'action'     => 'route404',
 		]
@@ -30,25 +32,25 @@ $container['router'] = function() use ($defaultModule, $modules) {
 	 * Error Routing
 	 */
 	$router->addGet('/forbidden', [
-		'namespace' => "Its\Common\Controller",
+		'namespace' => "Dex\Microblog\Controller",
 		'controller' => "error",
 		'action' => "route403"
 	]);
-	
+
 	$router->addGet('/error', [
-		'namespace' => "Its\Common\Controller",
+		'namespace' => "Dex\Microblog\Controller",
 		'controller' => "error",
 		'action' => "routeErrorCommon"
 	]);
-	
+
 	$router->addGet('/expired', [
-		'namespace' => "Its\Common\Controller",
+		'namespace' => "Dex\Microblog\Controller",
 		'controller' => "error",
 		'action' => "routeErrorState"
 	]);
 
 	$router->addGet('/maintenance', [
-		'namespace' => "Its\Common\Controller",
+		'namespace' => "Dex\Microblog\Controller",
 		'controller' => "error",
 		'action' => "maintenance"
 	]);
@@ -69,7 +71,7 @@ $container['router'] = function() use ($defaultModule, $modules) {
 				'action' => isset($module['defaultAction']) ? $module['defaultAction'] : 'index',
 				'params'=> 1
 			));
-			
+
 			$router->add('/'. $moduleName . '/:controller/:params', array(
 				'namespace' => $module['webControllerNamespace'],
 				'module' => $moduleName,
@@ -84,7 +86,7 @@ $container['router'] = function() use ($defaultModule, $modules) {
 				'controller' => 1,
 				'action' => 2,
 				'params' => 3
-			));	
+			));
 
 			/**
 			 * Default API Module routing
@@ -97,7 +99,7 @@ $container['router'] = function() use ($defaultModule, $modules) {
 				'action' => isset($module['defaultAction']) ? $module['defaultAction'] : 'index',
 				'params'=> 2
 			));
-			
+
 			$router->add('/'. $moduleName . '/api/{version:^(\d+\.)?(\d+\.)?(\*|\d+)$}/:controller/:params', array(
 				'namespace' => $module['apiControllerNamespace'] . "\\" . 1,
 				'module' => $moduleName,
@@ -114,24 +116,24 @@ $container['router'] = function() use ($defaultModule, $modules) {
 				'controller' => 2,
 				'action' => 3,
 				'params' => 4
-			));	
+			));
 		} else {
-			
+
 			$webModuleRouting = APP_PATH . '/modules/'. $moduleName .'/config/routes/web.php';
-			
+
 			if (file_exists($webModuleRouting) && is_file($webModuleRouting)) {
 				include $webModuleRouting;
 			}
 
 			$apiModuleRouting = APP_PATH . '/modules/'. $moduleName .'/config/routes/api.php';
-			
+
 			if (file_exists($apiModuleRouting) && is_file($apiModuleRouting)) {
 				include $apiModuleRouting;
 			}
 		}
 	}
-	
+
     $router->removeExtraSlashes(true);
-    
+
 	return $router;
 };
