@@ -40,6 +40,20 @@ class RoleModel
      */
     protected bool $isActive;
 
+    protected RoleId $id;
+
+    public function __construct(
+        RoleId $id,
+        string $roleName,
+        array $permissions
+    )
+    {
+        $this->id = $id;
+        $this->roleName = $roleName;
+        $this->listOfPermission = $permissions;
+
+    }
+
     public function setRole(string $role)
     {
         switch ($role) {

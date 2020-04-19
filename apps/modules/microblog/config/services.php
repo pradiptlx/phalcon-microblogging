@@ -1,5 +1,7 @@
 <?php
 
+use Dex\microblog\Infrastructure\Persistence\SqlRoleRepository;
+use Dex\microblog\Infrastructure\Persistence\SqlUserRepository;
 use Phalcon\Mvc\View;
 
 $di['view'] = function () {
@@ -14,3 +16,11 @@ $di['view'] = function () {
 
     return $view;
 };
+
+$di->setShared('sqlUserRepository', function (){
+   return new SqlUserRepository($this);
+});
+
+$di->setShared('sqlRoleRepository', function (){
+    return new SqlRoleRepository($this);
+});
