@@ -27,18 +27,21 @@ class Module implements ModuleDefinitionInterface
             'Dex\Microblog\Presentation\Web\Controller' => __DIR__ . '/Presentation/Web/Controller',
             'Dex\Microblog\Presentation\Web\Validator' => __DIR__ . '/Presentation/Web/Validator',
             'Dex\Microblog\Presentation\Api\Controller' => __DIR__ . '/Presentation/Api/Controller',
-            
+
         ]);
 
         $loader->register();
     }
 
+    /**
+     * @param DiInterface|null $di
+     */
     public function registerServices(DiInterface $di = null)
     {
         $moduleConfig = require __DIR__ . '/config/config.php';
 
         $di->get('config')->merge($moduleConfig);
 
-        include_once __DIR__ . '/config/services.php';
+        require_once __DIR__ . '/config/services.php';
     }
 }
