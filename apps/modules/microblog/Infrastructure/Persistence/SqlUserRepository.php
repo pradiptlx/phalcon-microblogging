@@ -25,7 +25,7 @@ class SqlUserRepository implements UserRepository
     {
         $db = $this->di->getShared('db');
 
-        $query = "SELECT id, username, fullname, email, role_id
+        $query = "SELECT id, username, fullname, email, password, role_id
                     FROM users
                     WHERE id = :id";
         $result = $db->fetchOne($query, Db::FETCH_ASSOC, [
@@ -42,6 +42,7 @@ class SqlUserRepository implements UserRepository
                 $result['username'],
                 $result['fullname'],
                 $result['email'],
+                $result['password'],
                 $roleModel->byId($roleId)
             );
 
@@ -53,6 +54,25 @@ class SqlUserRepository implements UserRepository
 
     public function saveUser(UserModel $user)
     {
-        // TODO: Implement saveUser() method.
+        $db = $this->di->getShared('db');
+
+        $query = "INSERT INTO users(
+                    id, username, fullname, email, password, role_id
+                    ) VALUES (
+                    :id, :username, :fullname, :email, :password, :role_id
+                    )";
+
+        $result = $db->query($query, [
+            'id' => $user->getId(),
+            'username' => $user->getUsername(),
+            'fullname' => $user->getFullname(),
+            'email' => $user->getEmail(),
+            'password' => $user->getPassword(),
+            'role_id' => $user->getRoleModel()->getRoleId()->getId()
+        ]);
+
+        if ($result)
+            return true;
+        return false;
     }
 }

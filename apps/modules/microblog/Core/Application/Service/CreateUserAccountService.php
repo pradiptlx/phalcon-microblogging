@@ -30,7 +30,8 @@ class CreateUserAccountService extends Injectable
 
     }
 
-    public function execute(CreateUserAccountRequest $request): bool {
+    public function execute(CreateUserAccountRequest $request): bool
+    {
         //TODO: FIX role creation
         $roleModel = new SqlRoleRepository($this->di);
         $roleId = new RoleId();
@@ -46,9 +47,11 @@ class CreateUserAccountService extends Injectable
             $roleModel->byId($roleId)
         );
 
-        // TODO: implement repository
+        $result = $this->userRepository->saveUser($user);
+        if ($result)
+            return true;
 
-        return true;
+        return false;
     }
 
 }

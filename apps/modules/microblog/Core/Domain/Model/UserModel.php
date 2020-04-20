@@ -66,12 +66,42 @@ class UserModel
         return $this->roleUser->getPermission();
     }
 
+    public function getId(): UserId
+    {
+        return $this->id;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
+    }
+
+    public function getFullname(): string
+    {
+        return $this->fullName;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function getRoleModel(): RoleModel
+    {
+        return $this->roleUser;
+    }
+
     /**
      * @param string $role
      * @return RoleModel
      */
     // TODO: Setter role
-    public function setRoleUser(string $role) : RoleModel
+    public function setRoleUser(string $role): RoleModel
     {
         $this->roleUser->setRole($role);
 

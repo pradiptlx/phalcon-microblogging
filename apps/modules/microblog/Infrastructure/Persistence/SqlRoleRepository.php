@@ -24,16 +24,18 @@ class SqlRoleRepository implements \Dex\Microblog\Core\Domain\Model\Repository\R
         $db = $this->di->getShared('db');
 
         $query = "SELECT id, role_name, permissions 
-                    FROM roles";
+                    FROM roles
+                    WHERE id = :id";
 
         $result = $db->fetchOne($query, \Phalcon\Db::FETCH_ASSOC, [
             'id' => $roleId->getId()
         ]);
 
-        //TODO: FIX type of "PERMISSIONS" in role model
+        //TODO: FIX db type of "PERMISSIONS" in role model
         if ($result) {
             $roleModel = new RoleModel(
-                new RoleId($result['id']),
+//                new RoleId($result['id']),
+                $roleId,
                 $result['role_name'],
                 $result['permissions']
             );
@@ -57,5 +59,28 @@ class SqlRoleRepository implements \Dex\Microblog\Core\Domain\Model\Repository\R
     public function getRoles(RoleId $roleId)
     {
         // TODO: Implement getRoles() method.
+    }
+
+    public function byName(string $rolename): ?RoleModel
+    {
+        $db = $this->di->getShared('db');
+
+        $query = "SELECT id, role_name, permissions 
+                    FROM roles
+                    WHERE role_name LIKE '%:rolename%'";
+
+        $result = $db->fetchOne($query, \Phalcon\Db::FETCH_ASSOC, [
+            'rolename' => $rolename
+        ]);
+
+        if ($result) {
+            return new RoleModel(
+                new RoleId($result['id']),
+                $result['role_name'],
+                $result['permissions']
+            );
+        }
+
+        return null;
     }
 }

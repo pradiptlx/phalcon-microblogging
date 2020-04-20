@@ -57,7 +57,13 @@ class RoleModel
 
     }
 
-    public static function getRoleModel(): self {
+    public function getRoleId(): RoleId
+    {
+        return $this->id;
+    }
+
+    public static function getRoleModel(): self
+    {
 
     }
 

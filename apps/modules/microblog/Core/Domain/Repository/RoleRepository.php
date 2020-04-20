@@ -11,6 +11,8 @@ interface RoleRepository
 {
     public function byId(RoleId $roleId): ?RoleModel;
 
+    public function byName(string $rolename): ?RoleModel;
+
     public function saveRole(RoleModel $role);
 
     public function getPermission(RoleId $roleId);
