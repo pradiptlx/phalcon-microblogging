@@ -9,22 +9,24 @@ use Dex\Microblog\Core\Domain\Model\UserId;
 class CreateUserAccountRequest
 {
 
-    public string $userId;
+    public UserId $userId;
     public string $username;
     public string $fullname;
     public string $email;
+    public string $password;
 
     public function __construct(
-        UserId $userId,
         string $username,
         string $fullname,
-        string $email
+        string $email,
+        string $password
     )
     {
-        $this->userId = $userId;
-        $this->userId = $username;
+        $this->userId = new UserId();
+        $this->username = $username;
         $this->fullname = $fullname;
         $this->email = $email;
+        $this->password = $password;
     }
 
 }

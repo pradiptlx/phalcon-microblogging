@@ -8,8 +8,11 @@ class RoleModel
 
     // Role
     public static string $USER_ADMIN = 'admin';
+    public static int $LEVEL_ADMIN = 0;
     public static string $USER_GUEST = 'guest';
+    public static int $LEVEL_GUEST = 1;
     public static string $USER_GENERAL = 'general';
+    public static int $LEVEL_GENERAL = 2;
 
     // Permission
     public static string $PERM_READ = 'read';
@@ -51,6 +54,10 @@ class RoleModel
         $this->id = $id;
         $this->roleName = $roleName;
         $this->listOfPermission = $permissions;
+
+    }
+
+    public static function getRoleModel(): self {
 
     }
 

@@ -38,8 +38,8 @@ $container['dispatcher'] = function() {
                     ]
                 );
 
-                return false;
             }
+            return false;
         }
     );
 
@@ -58,14 +58,14 @@ $container['url'] = function() use ($config) {
 };
 
 $container['voltService'] = function (ViewBaseInterface $view) use ($container, $config) {
-    
+
     $volt = new Volt($view, $container);
 
     if (!is_dir($config->application->cacheDir)) {
         mkdir($config->application->cacheDir);
     }
 
-    $compileAlways = $config->mode == 'DEVELOPMENT' ? true : false;
+    $compileAlways = $config->mode == 'DEVELOPMENT';
 
     $volt->setOptions(
         [
@@ -77,7 +77,7 @@ $container['voltService'] = function (ViewBaseInterface $view) use ($container, 
             'prefix'    => '-prefix-',
         ]
     );
-    
+
     return $volt;
 };
 
@@ -134,7 +134,7 @@ $container->set(
         );
 
         $flash->setAutoescape(false);
-        
+
         return $flash;
     }
 );
