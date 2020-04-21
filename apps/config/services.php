@@ -1,5 +1,6 @@
 <?php
 
+use Phalcon\Escaper;
 use Phalcon\Session\Adapter\Files as Session;
 use Phalcon\Security;
 use Phalcon\Mvc\Dispatcher;
@@ -8,21 +9,21 @@ use Phalcon\Events\Manager;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Mvc\View\Engine\Volt;
-use Phalcon\Flash\Direct as FlashDirect;
+use Phalcon\Flash\Direct as Flash;
 use Phalcon\Flash\Session as FlashSession;
 
-$container['config'] = function() use ($config) {
-	return $config;
+$container['config'] = function () use ($config) {
+    return $config;
 };
 
-$container->setShared('session', function() {
+$container->setShared('session', function () {
     $session = new Session();
-	$session->start();
+    $session->start();
 
-	return $session;
+    return $session;
 });
 
-$container['dispatcher'] = function() {
+$container['dispatcher'] = function () {
 
     $eventsManager = new Manager();
 
@@ -34,7 +35,7 @@ $container['dispatcher'] = function() {
                 $dispatcher->forward(
                     [
                         'controller' => 'index',
-                        'action'     => 'fourOhFour',
+                        'action' => 'fourOhFour',
                     ]
                 );
 
@@ -44,17 +45,20 @@ $container['dispatcher'] = function() {
     );
 
     $dispatcher = new Dispatcher();
+    $dispatcher->setDefaultNamespace(
+        'Dex\microblog\Presentation\Web\Controller'
+    );
     $dispatcher->setEventsManager($eventsManager);
 
     return $dispatcher;
 };
 
-$container['url'] = function() use ($config) {
-	$url = new \Phalcon\Url();
+$container['url'] = function () use ($config) {
+    $url = new \Phalcon\Url();
 
     $url->setBaseUri($config->url['baseUrl']);
 
-	return $url;
+    return $url;
 };
 
 $container['voltService'] = function (ViewBaseInterface $view) use ($container, $config) {
@@ -69,12 +73,12 @@ $container['voltService'] = function (ViewBaseInterface $view) use ($container, 
 
     $volt->setOptions(
         [
-            'always'    => $compileAlways,
+            'always' => $compileAlways,
             'extension' => '.php',
             'separator' => '_',
-            'stat'      => true,
-            'path'      => $config->application->cacheDir,
-            'prefix'    => '-prefix-',
+            'stat' => true,
+            'path' => $config->application->cacheDir,
+            'prefix' => '-prefix-',
         ]
     );
 
@@ -108,27 +112,27 @@ $container->set(
 $container->set(
     'flash',
     function () {
-        $flash = new FlashDirect(
-            [
-                'error'   => 'alert alert-danger',
-                'success' => 'alert alert-success',
-                'notice'  => 'alert alert-info',
-                'warning' => 'alert alert-warning',
-            ]
-        );
+        $escaper = new Escaper();
+        $flash = new Flash($escaper);
+        $flash->setImplicitFlush(false);
+        $flash->setCssClasses([
+            'error' => 'alert alert-danger',
+            'success' => 'alert alert-success',
+            'notice' => 'alert alert-info',
+            'warning' => 'alert alert-warning'
+        ]);
 
         return $flash;
-    }
-);
-
+    });
+/*
 $container->set(
     'flashSession',
     function () {
         $flash = new FlashSession(
             [
-                'error'   => 'alert alert-danger',
+                'error' => 'alert alert-danger',
                 'success' => 'alert alert-success',
-                'notice'  => 'alert alert-info',
+                'notice' => 'alert alert-info',
                 'warning' => 'alert alert-warning',
             ]
         );
@@ -137,7 +141,7 @@ $container->set(
 
         return $flash;
     }
-);
+);*/
 
 $container['db'] = function () use ($config) {
 

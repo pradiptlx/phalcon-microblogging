@@ -6,7 +6,7 @@ use Phalcon\Mvc\View;
 
 $di['view'] = function () {
     $view = new View();
-    $view->setViewsDir(__DIR__ . '/../Presentation/Web/views/');
+    $view->setViewsDir(__DIR__ . '/../Presentation/view/');
 
     $view->registerEngines(
         [
