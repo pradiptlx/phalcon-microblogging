@@ -11,7 +11,7 @@ interface FileManagerRepository
 {
     public function byId(FileManagerId $fileManagerId): ?FileManagerModel;
 
-    public function saveFile();
+    public function saveFile(FileManagerModel $fileManagerModel);
 
     public function getPost(FileManagerId $fileManagerId);
 

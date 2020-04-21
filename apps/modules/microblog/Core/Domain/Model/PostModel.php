@@ -27,16 +27,21 @@ class PostModel
      */
     protected StatsPostModel $statsPost;
 
+    protected string $user_id;
+
     public function __construct(
         PostId $id,
         string $title,
-        string $content
+        string $content,
+        string $user_id
     )
     {
 
         $this->id = $id;
         $this->title = $title;
         $this->content = $content;
+
+        $this->user_id = $user_id;
 
         $this->statsPost = new StatsPostModel();
 
