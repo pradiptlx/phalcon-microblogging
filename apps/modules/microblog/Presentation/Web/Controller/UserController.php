@@ -3,8 +3,10 @@
 
 namespace Dex\microblog\Presentation\Web\Controller;
 
-use Dex\microblog\Core\Application\CreateUserAccountRequest;
+use Dex\microblog\Core\Application\Request\CreateUserAccountRequest;
+use Dex\microblog\Core\Application\Request\UserLoginRequest;
 use Dex\microblog\Core\Application\Service\CreateUserAccountService;
+use Dex\microblog\Core\Application\Service\UserLoginService;
 use Phalcon\Mvc\Controller;
 
 class UserController extends Controller
@@ -34,6 +36,38 @@ class UserController extends Controller
                 // TODO: view failed
                 $this->response->setStatusCode(400, 'Bad request');
             }
+        }
+    }
+
+    public function loginAction(){
+        $request = $this->request;
+
+        if ($request->isPost()) {
+            $username = $request->getPost('username', 'string');
+            $password = $request->getPost('password', 'string');
+
+            $userLoginRequest = new UserLoginRequest(
+                $username,
+                $password
+            );
+
+            $userLoginService = new UserLoginService();
+
+            if($userLoginService->execute($userLoginRequest)){
+                $this->flash->success("Login Success");
+
+                $this->response->redirect('/microblog/home');
+            }else {
+                $this->flash->error("Can't Login");
+
+                $this->response->redirect('/microblog/user/login');
+            }
+
+//            return $this->view->pick("user/login");
+        } else if($request->isGet()){
+            $this->view->title = "Login page";
+
+            return $this->view->pick("user/login");
         }
     }
 
