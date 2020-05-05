@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Dex\microblog\Core\Application\Service;
+namespace Dex\Microblog\Core\Application\Service;
 
-use Dex\microblog\Core\Application\Request\UserLoginRequest;
-use Dex\microblog\Core\Application\Response\UserLoginResponse;
+use Dex\Microblog\Core\Application\Request\UserLoginRequest;
+use Dex\Microblog\Core\Application\Response\UserLoginResponse;
 use Dex\Microblog\Core\Domain\Model\Repository\UserRepository;
 use Phalcon\Di\Injectable;
 
@@ -21,7 +21,7 @@ class UserLoginService extends Injectable
     public function execute(UserLoginRequest $request): UserLoginResponse
     {
         $username = $request->username;
-        $password = $request->password;
+        $password = password_hash($request->password, PASSWORD_BCRYPT);
 
         $userModel = $this->userRepository->byUsername($username);
 

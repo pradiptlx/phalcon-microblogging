@@ -1,12 +1,12 @@
 <?php
 
 
-namespace Dex\microblog\Presentation\Web\Controller;
+namespace Dex\Microblog\Presentation\Web\Controller;
 
-use Dex\microblog\Core\Application\Request\CreateUserAccountRequest;
-use Dex\microblog\Core\Application\Request\UserLoginRequest;
-use Dex\microblog\Core\Application\Service\CreateUserAccountService;
-use Dex\microblog\Core\Application\Service\UserLoginService;
+use Dex\Microblog\Core\Application\Request\CreateUserAccountRequest;
+use Dex\Microblog\Core\Application\Request\UserLoginRequest;
+use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
+use Dex\Microblog\Core\Application\Service\UserLoginService;
 use Phalcon\Mvc\Controller;
 
 class UserController extends Controller
@@ -57,6 +57,9 @@ class UserController extends Controller
                 $password
             );
 
+            var_dump($userLoginRequest);
+            die();
+
             $userLoginService = new UserLoginService($this->di->get('sqlUserRepository'));
 
             $response = $userLoginService->execute($userLoginRequest);
@@ -64,10 +67,16 @@ class UserController extends Controller
             $response->getError() ? $this->flashSession->error($response->getMessage()) :
                 $this->flashSession->success($response->getMessage());
 
-            return $this->response->redirect('/');
+            var_dump($response);
+            die();
+//            return $this->response->redirect('/');
         }
 
         return $this->view->pick("user/login");
+    }
+
+    public function logoutAction(){
+
     }
 
 }

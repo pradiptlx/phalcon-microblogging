@@ -1,6 +1,5 @@
 <?php
 
-use Dex\microblog\Infrastructure\Persistence\SqlRoleRepository;
 use Dex\microblog\Infrastructure\Persistence\SqlUserRepository;
 use Phalcon\Mvc\View;
 

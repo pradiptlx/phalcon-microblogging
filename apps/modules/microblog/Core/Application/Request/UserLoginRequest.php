@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\microblog\Core\Application\Request;
+namespace Dex\Microblog\Core\Application\Request;
 
 
 class UserLoginRequest

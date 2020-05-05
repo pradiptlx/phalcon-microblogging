@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Dex\microblog\Core\Application\Request;
+namespace Dex\Microblog\Core\Application\Request;
 
 
-use Dex\microblog\Core\Domain\Model\FileManagerId;
+use Dex\Microblog\Core\Domain\Model\FileManagerId;
 
 class FileManagerRequest
 {

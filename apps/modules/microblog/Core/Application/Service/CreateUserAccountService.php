@@ -1,17 +1,17 @@
 <?php
 
 
-namespace Dex\microblog\Core\Application\Service;
+namespace Dex\Microblog\Core\Application\Service;
 
 
-use Dex\microblog\Core\Application\CreateUserAccountRequest;
+use Dex\Microblog\Core\Application\CreateUserAccountRequest;
 use Dex\Microblog\Core\Domain\Model\Repository\RoleRepository;
 use Dex\Microblog\Core\Domain\Model\Repository\UserRepository;
 use Dex\Microblog\Core\Domain\Model\RoleId;
 use Dex\Microblog\Core\Domain\Model\RoleModel;
 use Dex\Microblog\Core\Domain\Model\UserId;
 use Dex\Microblog\Core\Domain\Model\UserModel;
-use Dex\microblog\Infrastructure\Persistence\SqlRoleRepository;
+use Dex\Microblog\Infrastructure\Persistence\SqlRoleRepository;
 use Phalcon\Di\Injectable;
 
 class CreateUserAccountService extends Injectable

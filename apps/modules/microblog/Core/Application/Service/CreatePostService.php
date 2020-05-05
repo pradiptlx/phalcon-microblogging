@@ -1,16 +1,16 @@
 <?php
 
 
-namespace Dex\microblog\Core\Application\Service;
+namespace Dex\Microblog\Core\Application\Service;
 
-use Dex\microblog\Core\Application\Request\CreatePostRequest;
-use Dex\microblog\Core\Domain\Model\FileManagerId;
+use Dex\Microblog\Core\Application\Request\CreatePostRequest;
+use Dex\Microblog\Core\Domain\Model\FileManagerId;
 use Dex\Microblog\Core\Domain\Model\FileManagerModel;
 use Dex\Microblog\Core\Domain\Model\PostModel;
 use Dex\Microblog\Core\Domain\Model\Repository\PostRepository;
 use Dex\Microblog\Core\Domain\Model\Repository\UserRepository;
-use Dex\microblog\Core\Domain\Repository\FileManagerRepository;
-use Dex\microblog\Infrastructure\Persistence\SqlPostRepository;
+use Dex\Microblog\Core\Domain\Repository\FileManagerRepository;
+use Dex\Microblog\Infrastructure\Persistence\SqlPostRepository;
 use Phalcon\Di\Injectable;
 
 class CreatePostService extends Injectable

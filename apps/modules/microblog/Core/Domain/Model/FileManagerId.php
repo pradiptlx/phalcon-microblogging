@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\microblog\Core\Domain\Model;
+namespace Dex\Microblog\Core\Domain\Model;
 
 
 use Ramsey\Uuid\Uuid;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\microblog\Infrastructure\Persistence\Record;
+namespace Dex\Microblog\Infrastructure\Persistence\Record;
 
 
 use Phalcon\Mvc\Model;

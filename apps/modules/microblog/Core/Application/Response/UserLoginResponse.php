@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\microblog\Core\Application\Response;
+namespace Dex\Microblog\Core\Application\Response;
 
 
 class UserLoginResponse extends GenericResponse

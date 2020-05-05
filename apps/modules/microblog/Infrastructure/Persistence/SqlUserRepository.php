@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\microblog\Infrastructure\Persistence;
+namespace Dex\Microblog\Infrastructure\Persistence;
 
 
 use Dex\Microblog\Core\Domain\Model\Repository\UserRepository;
@@ -9,7 +9,7 @@ use Dex\Microblog\Core\Domain\Model\RoleId;
 use Dex\Microblog\Core\Domain\Model\RoleModel;
 use Dex\Microblog\Core\Domain\Model\UserId;
 use Dex\Microblog\Core\Domain\Model\UserModel;
-use Dex\microblog\Infrastructure\Persistence\Record\UserRecord;
+use Dex\Microblog\Infrastructure\Persistence\Record\UserRecord;
 use Phalcon\Di\DiInterface;
 use Phalcon\Db;
 use Phalcon\Mvc\Model\Transaction\Failed;

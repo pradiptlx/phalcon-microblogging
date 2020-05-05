@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\microblog\Infrastructure\Persistence;
+namespace Dex\Microblog\Infrastructure\Persistence;
 
 
 use Dex\microblog\Core\Domain\Model\FileManagerId;

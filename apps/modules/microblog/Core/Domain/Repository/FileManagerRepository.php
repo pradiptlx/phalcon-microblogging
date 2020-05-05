@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Dex\microblog\Core\Domain\Repository;
+namespace Dex\Microblog\Core\Domain\Repository;
 
 
-use Dex\microblog\Core\Domain\Model\FileManagerId;
+use Dex\Microblog\Core\Domain\Model\FileManagerId;
 use Dex\Microblog\Core\Domain\Model\FileManagerModel;
 
 interface FileManagerRepository
