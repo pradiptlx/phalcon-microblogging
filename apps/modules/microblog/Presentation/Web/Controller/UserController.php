@@ -72,6 +72,8 @@ class UserController extends Controller
 
     public function registerAction()
     {
+        
+        $this->view->setVar('title', 'Register Page');
         if ($this->request->isPost()) {
 //            $service = new CreateUserAccountService()
             $request = new CreateUserAccountRequest(

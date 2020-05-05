@@ -19,6 +19,7 @@ class IndexController extends Controller
 
     public function fourOhFour()
     {
+        $this->view->title = 'Whoops!';
         return $this->view->pick('fourohfour');
     }
 }
