@@ -20,9 +20,10 @@ class Module implements ModuleDefinitionInterface
             'Dex\Microblog\Core\Domain\Service' => __DIR__ . '/Core/Domain/Service',
 
             'Dex\Microblog\Core\Application\Service' => __DIR__ . '/Core/Application/Service',
+            'Dex\Microblog\Core\Application\Request' => __DIR__ . '/Core/Application/Request',
             'Dex\Microblog\Core\Application\EventSubscriber' => __DIR__ . '/Core/Application/EventSubscriber',
 
-            'Dex\Microblog\Infrastructure\Persistence' => __DIR__ . '/Core/Infrastructure/Persistence',
+            'Dex\Microblog\Infrastructure\Persistence' => __DIR__ . '/Infrastructure/Persistence',
 
             'Dex\Microblog\Presentation\Web\Controller' => __DIR__ . '/Presentation/Web/Controller',
             'Dex\Microblog\Presentation\Web\Validator' => __DIR__ . '/Presentation/Web/Validator',

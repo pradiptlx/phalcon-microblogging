@@ -8,7 +8,7 @@ use Dex\Microblog\Core\Domain\Model\RoleId;
 use Dex\Microblog\Core\Domain\Model\RoleModel;
 use Phalcon\Di\DiInterface;
 
-class SqlRoleRepository implements \Dex\Microblog\Core\Domain\Model\Repository\RoleRepository
+class SqlRoleRepository implements \Dex\Microblog\Core\Domain\Repository\RoleRepository
 {
     protected DiInterface $di;
 

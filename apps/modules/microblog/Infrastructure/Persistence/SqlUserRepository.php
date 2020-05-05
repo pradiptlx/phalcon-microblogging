@@ -4,7 +4,7 @@
 namespace Dex\Microblog\Infrastructure\Persistence;
 
 
-use Dex\Microblog\Core\Domain\Model\Repository\UserRepository;
+use Dex\Microblog\Core\Domain\Repository\UserRepository;
 use Dex\Microblog\Core\Domain\Model\RoleId;
 use Dex\Microblog\Core\Domain\Model\RoleModel;
 use Dex\Microblog\Core\Domain\Model\UserId;

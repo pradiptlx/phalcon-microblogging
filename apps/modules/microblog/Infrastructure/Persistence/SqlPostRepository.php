@@ -7,7 +7,7 @@ namespace Dex\Microblog\Infrastructure\Persistence;
 use Dex\Microblog\Core\Domain\Model\PostId;
 use Dex\Microblog\Core\Domain\Model\PostModel;
 
-class SqlPostRepository implements \Dex\Microblog\Core\Domain\Model\Repository\PostRepository
+class SqlPostRepository implements \Dex\Microblog\Core\Domain\Repository\PostRepository
 {
 
     public function byId(PostId $postId): ?PostModel

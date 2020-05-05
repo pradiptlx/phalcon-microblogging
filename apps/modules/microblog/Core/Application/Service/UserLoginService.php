@@ -5,7 +5,7 @@ namespace Dex\Microblog\Core\Application\Service;
 
 use Dex\Microblog\Core\Application\Request\UserLoginRequest;
 use Dex\Microblog\Core\Application\Response\UserLoginResponse;
-use Dex\Microblog\Core\Domain\Model\Repository\UserRepository;
+use Dex\Microblog\Core\Domain\Repository\UserRepository;
 use Phalcon\Di\Injectable;
 
 class UserLoginService extends Injectable

@@ -4,7 +4,7 @@
 namespace Dex\Microblog\Infrastructure\Persistence;
 
 
-use Dex\microblog\Core\Domain\Model\FileManagerId;
+use Dex\Microblog\Core\Domain\Model\FileManagerId;
 use Dex\Microblog\Core\Domain\Model\FileManagerModel;
 
 class SqlFileRepository implements \Dex\microblog\Core\Domain\Repository\FileManagerRepository

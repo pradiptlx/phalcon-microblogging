@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\Microblog\Core\Domain\Model\Repository;
+namespace Dex\Microblog\Core\Domain\Repository;
 
 use Dex\Microblog\Core\Domain\Model\UserId;
 use Dex\Microblog\Core\Domain\Model\UserModel;

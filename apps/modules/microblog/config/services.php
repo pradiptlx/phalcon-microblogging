@@ -1,6 +1,7 @@
 <?php
 
-use Dex\microblog\Infrastructure\Persistence\SqlUserRepository;
+use Dex\Microblog\Core\Application\Service\UserLoginService;
+use Dex\Microblog\Infrastructure\Persistence\SqlUserRepository;
 use Phalcon\Mvc\View;
 
 $di['view'] = function () {
@@ -11,11 +12,15 @@ $di['view'] = function () {
         [
             ".volt" => "voltService",
         ]
-        );
+    );
 
     return $view;
 };
 
-$di->setShared('sqlUserRepository', function (){
-   return new SqlUserRepository($this);
+$di->set('sqlUserRepository', function () {
+    return new SqlUserRepository($this);
+});
+
+$di->set('UserLoginService', function () use ($di) {
+    return new UserLoginService($di->get('sqlUserRepository'));
 });
