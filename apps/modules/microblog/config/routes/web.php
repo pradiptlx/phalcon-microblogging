@@ -35,6 +35,7 @@ $router->add(
     '/home',
     [
         'namespace' => $module['webControllerNamespace'],
+        'module' => $moduleName,
         'controller' => 'post',
         'action' => 'index'
     ]
@@ -76,7 +77,7 @@ $userRouter->add(
 $postRouter = new Router\Group([
     'namespace' => $module['webControllerNamespace'],
     'module' => $moduleName,
-    'controller' => 'post'
+    'controller' => 'post',
 ]);
 $postRouter->setPrefix('/post');
 $postRouter->add(
@@ -139,6 +140,5 @@ $fileRouter = new Router\Group([
 
 $router->mount($userRouter);
 $router->mount($postRouter);
-
 
 ?>
