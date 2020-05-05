@@ -36,7 +36,7 @@ $container['dispatcher'] = function () {
         'dispatch:beforeException',
         function (Event $event, $dispatcher, Exception $exception) {
             // 404
-            if ($exception instanceof DispatchException) {
+            if ($exception instanceof \Phalcon\Mvc\Dispatcher\Exception) {
                 $dispatcher->forward(
                     [
                         'controller' => 'index',
@@ -51,8 +51,10 @@ $container['dispatcher'] = function () {
 
     $dispatcher = new Dispatcher();
     $dispatcher->setDefaultNamespace(
-        'Dex\microblog\Presentation\Web\Controller'
+        'Dex\Microblog\Presentation\Web\Controller'
     );
+    $dispatcher->setDefaultController('post');
+    $dispatcher->setDefaultAction('index');
     $dispatcher->setEventsManager($eventsManager);
 
     return $dispatcher;
