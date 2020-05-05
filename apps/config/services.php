@@ -1,5 +1,6 @@
 <?php
 
+use Phalcon\Config;
 use Phalcon\Escaper;
 use Phalcon\Session\Adapter\Stream as SessionAdapter;
 use Phalcon\Session\Manager as SessionManager;
@@ -13,6 +14,10 @@ use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Flash\Direct as Flash;
 use Phalcon\Flash\Session as FlashSession;
 
+/**
+ * @var Config $config
+ * @return mixed
+ */
 $container['config'] = function () use ($config) {
     return $config;
 };
@@ -50,9 +55,9 @@ $container['dispatcher'] = function () {
     );
 
     $dispatcher = new Dispatcher();
-    $dispatcher->setDefaultNamespace(
-        'Dex\Microblog\Presentation\Web\Controller'
-    );
+//    $dispatcher->setDefaultNamespace(
+//        'Dex\Microblog\Presentation\Web\Controller'
+//    );
     $dispatcher->setEventsManager($eventsManager);
 
     return $dispatcher;
@@ -129,24 +134,22 @@ $container->set(
 
         return $flash;
     });
-/*
-$container->set(
-    'flashSession',
-    function () {
-        $flash = new FlashSession(
-            [
-                'error' => 'alert alert-danger',
-                'success' => 'alert alert-success',
-                'notice' => 'alert alert-info',
-                'warning' => 'alert alert-warning',
-            ]
-        );
 
-        $flash->setAutoescape(false);
+/**
+ * Change Flash session css Classes
+ */
+$container->set('flashSession', function (){
+    $escaper = new Escaper();
+    $flash = new FlashSession($escaper);
+    $flash->setCssClasses([
+        'error' => 'alert alert-danger alert-dismissible fade show',
+        'success' => 'alert alert-success alert-dismissible fade show',
+        'notice' => 'alert alert-info alert-dismissible fade show',
+        'warning' => 'alert alert-warning alert-dismissible fade show'
+    ]);
 
-        return $flash;
-    }
-);*/
+    return $flash;
+});
 
 $container['db'] = function () use ($config) {
 

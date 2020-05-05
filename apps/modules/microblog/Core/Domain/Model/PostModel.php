@@ -22,29 +22,39 @@ class PostModel
      */
     protected string $content;
 
-    /**
-     * @var StatsPostModel $statsPost
-     */
-    protected StatsPostModel $statsPost;
+    protected int $repost_counter;
+    protected int $share_counter;
+    protected int $reply_counter;
 
-    protected string $user_id;
+    protected UserModel $user;
+//    protected string $user_id;
+
+    protected string $created_at;
 
     public function __construct(
         PostId $id,
         string $title,
         string $content,
-        string $user_id
+        UserModel $user,
+        int $repost_counter,
+        int $share_counter,
+        int $reply_counter,
+        string $created_at
     )
     {
-
         $this->id = $id;
         $this->title = $title;
         $this->content = $content;
+        $this->repost_counter = $repost_counter;
+        $this->reply_counter = $reply_counter;
+        $this->share_counter = $share_counter;
+        $this->user = $user;
+        $this->created_at = $created_at;
+    }
 
-        $this->user_id = $user_id;
-
-        $this->statsPost = new StatsPostModel();
-
+    public function getId(): PostId
+    {
+        return $this->id;
     }
 
     public function getTitle(): string
@@ -57,12 +67,65 @@ class PostModel
         return $this->content;
     }
 
-    /**
-     * @return StatsPostModel
-     */
-    public function getStatsPost(): StatsPostModel
+    public function getUser(): UserModel
     {
-        return $this->statsPost;
+        return $this->user;
+    }
+
+    public function getCreatedDate(): string
+    {
+        return $this->created_at;
+    }
+
+    public function getRepostCounter(): int
+    {
+        return $this->repost_counter;
+    }
+
+    public function getReplyCounter(): int
+    {
+        return $this->reply_counter;
+    }
+
+    public function getShareCounter(): int
+    {
+        return $this->share_counter;
+    }
+
+    public function incRepostCounter()
+    {
+        //TODO: Event Subscriber
+
+        return $this->repost_counter++;
+    }
+
+    public function decRepostCounter()
+    {
+
+        return $this->repost_counter--;
+    }
+
+    public function incReplyCounter()
+    {
+
+        return $this->reply_counter++;
+    }
+
+    public function decReplyCounter()
+    {
+
+        return $this->reply_counter--;
+    }
+
+    public function incShareCounter()
+    {
+
+        return $this->share_counter++;
+    }
+
+    public function decShareCounter()
+    {
+        return $this->share_counter--;
     }
 
 }

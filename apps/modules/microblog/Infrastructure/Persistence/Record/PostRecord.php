@@ -10,8 +10,11 @@ class PostRecord extends Model
 {
 
     public string $id;
+    public string $title;
     public string $content;
-    public string $post_id;
+    public int $repost_counter;
+    public int $share_counter;
+    public int $reply_counter;
     public string $user_id;
     public ?string $created_at = null;
     public ?string $updated_at = null;

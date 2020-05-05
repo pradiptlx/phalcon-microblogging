@@ -9,7 +9,7 @@ return new Config(
         'url' => [
             'baseUrl' => getenv('BASE_URL'),
         ],
-        
+
         'application' => [
             'libraryDir' => APP_PATH . "/lib/",
             'cacheDir' => getenv('APP_MODE') == 'PRODUCTION' ? "/cache/" : APP_PATH . "/cache/",
@@ -22,8 +22,8 @@ return new Config(
             'username' => getenv('DB_USERNAME'),
             'password' => getenv('DB_PASSWORD'),
             'dbname' => getenv('DB_NAME'),
-        ],  
+        ],
 
-        'version' => '0.1.0',
+        'version' => '1.0',
     ]
 );

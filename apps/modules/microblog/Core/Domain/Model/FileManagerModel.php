@@ -12,19 +12,19 @@ class FileManagerModel
 
     protected string $path;
 
-    protected string $post;
+    protected string $postId;
 
     public function __construct(
         FileManagerId $fileManagerId,
         string $fileName,
         string $path,
-        PostModel $post
+        string $postId
     )
     {
         $this->id = $fileManagerId;
         $this->fileName = $fileName;
         $this->path = $path;
-        $this->post = $post;
+        $this->postId = $postId;
     }
 
     public function getFileName()
@@ -37,16 +37,10 @@ class FileManagerModel
         return $this->path;
     }
 
-    public function getPost(): PostModel
+    public function getPostId(): string
     {
-        return $this->post;
+        return $this->postId;
     }
-
-    // TODO: byId File manager
-//    public function getPostById(FileManagerId $fileManagerId): ?PostModel
-//    {
-//
-//    }
 
 
 }

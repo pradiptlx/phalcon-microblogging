@@ -8,7 +8,7 @@ return array(
         'className' => 'Dex\Microblog\Module',
         'path' => APP_PATH . '/modules/microblog/Module.php',
         'defaultRouting' => false,
-        'defaultController' => 'user',
-        'defaultAction' => 'login'
+        'defaultController' => 'post',
+        'defaultAction' => 'index'
     ],
 );
