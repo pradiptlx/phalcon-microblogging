@@ -330,7 +330,7 @@ class Sqlsrv extends \Phalcon\Db\Dialect
      *
      * @return string
      */
-    public function dropColumn(string $tableName, string $schemaName, string $columnName) : string 
+    public function dropColumn(string $tableName, string $schemaName, string $columnName) : string
     {
         return 'ALTER TABLE '.$this->prepareTable($tableName, $schemaName).' DROP COLUMN ['.$columnName.']';
     }
@@ -658,7 +658,7 @@ class Sqlsrv extends \Phalcon\Db\Dialect
      *
      * @return string
      */
-    public function viewExists(string $viewName, string $schemaName = null) : string 
+    public function viewExists(string $viewName, string $schemaName = null) : string
     {
         $sql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.VIEWS WHERE TABLE_NAME = '{$viewName}'";
 
