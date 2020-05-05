@@ -31,21 +31,44 @@ use Phalcon\Mvc\Router;
 //     'params' => 3
 // ));
 
+/**
+ * @var string $moduleName
+ * @var array $module
+ */
+
 $router->add(
     '/home',
     [
         'namespace' => $module['webControllerNamespace'],
+        'module' => 'microblog',
         'controller' => 'post',
         'action' => 'index'
     ]
 );
-
+$router->add(
+    '/post',
+    [
+        'namespace' => $module['webControllerNamespace'],
+        'module' => 'microblog',
+        'controller' => 'post',
+        'action' => 'index'
+    ]
+);
+$router->add(
+    '/user',
+    [
+        'namespace' => $module['webControllerNamespace'],
+        'module' => 'microblog',
+        'controller' => 'user',
+        'action' => 'dashboard'
+    ]
+);
 /**
  * USER
  */
 $userRouter = new Router\Group([
     'namespace' => $module['webControllerNamespace'],
-    'module' => $moduleName,
+    'module' => 'microblog',
     'controller' => 'user'
 ]);
 $userRouter->setPrefix('/user');
@@ -75,7 +98,7 @@ $userRouter->add(
  */
 $postRouter = new Router\Group([
     'namespace' => $module['webControllerNamespace'],
-    'module' => $moduleName,
+    'module' => 'microblog',
     'controller' => 'post'
 ]);
 $postRouter->setPrefix('/post');
@@ -132,13 +155,13 @@ $postRouter->add(
 /**
  * File
  */
-$fileRouter = new Router\Group([
-    'controller' => 'fileManager'
-]);
+//$fileRouter = new Router\Group([
+//    'controller' => 'fileManager'
+//]);
 
+//var_dump($postRouter->getRoutes());
+//die();
 
 $router->mount($userRouter);
 $router->mount($postRouter);
 
-
-?>
