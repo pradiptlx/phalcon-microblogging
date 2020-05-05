@@ -53,8 +53,6 @@ $container['dispatcher'] = function () {
     $dispatcher->setDefaultNamespace(
         'Dex\Microblog\Presentation\Web\Controller'
     );
-    $dispatcher->setDefaultController('post');
-    $dispatcher->setDefaultAction('index');
     $dispatcher->setEventsManager($eventsManager);
 
     return $dispatcher;

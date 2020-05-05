@@ -16,4 +16,9 @@ class IndexController extends Controller
 
         echo var_dump($result);
     }
+
+    public function fourOhFour()
+    {
+        return $this->view->pick('fourohfour');
+    }
 }

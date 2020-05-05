@@ -22,7 +22,7 @@ $container['router'] = function() use ($defaultModule, $modules) {
 	 */
 	$router->notFound(
 		[
-			'namespace' => 'Dex\Microblog\Controller',
+			'namespace' => 'Dex\Microblog\Presentation\Web\Controller',
 			'controller' => 'error',
 			'action'     => 'route404',
 		]
@@ -32,25 +32,25 @@ $container['router'] = function() use ($defaultModule, $modules) {
 	 * Error Routing
 	 */
 	$router->addGet('/forbidden', [
-		'namespace' => "Dex\Microblog\Controller",
+		'namespace' => "Dex\Microblog\Presentation\Web\Controller",
 		'controller' => "error",
 		'action' => "route403"
 	]);
 
 	$router->addGet('/error', [
-		'namespace' => "Dex\Microblog\Controller",
+		'namespace' => "Dex\Microblog\Presentation\Web\Controller",
 		'controller' => "error",
 		'action' => "routeErrorCommon"
 	]);
 
 	$router->addGet('/expired', [
-		'namespace' => "Dex\Microblog\Controller",
+		'namespace' => "Dex\Microblog\Presentation\Web\Controller",
 		'controller' => "error",
 		'action' => "routeErrorState"
 	]);
 
 	$router->addGet('/maintenance', [
-		'namespace' => "Dex\Microblog\Controller",
+		'namespace' => "Dex\Microblog\Presentation\Web\Controller",
 		'controller' => "error",
 		'action' => "maintenance"
 	]);

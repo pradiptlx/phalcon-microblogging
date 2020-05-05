@@ -57,9 +57,6 @@ class UserController extends Controller
                 $password
             );
 
-            var_dump($userLoginRequest);
-            die();
-
             $userLoginService = new UserLoginService($this->di->get('sqlUserRepository'));
 
             $response = $userLoginService->execute($userLoginRequest);
@@ -75,7 +72,8 @@ class UserController extends Controller
         return $this->view->pick("user/login");
     }
 
-    public function logoutAction(){
+    public function logoutAction()
+    {
 
     }
 
