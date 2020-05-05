@@ -23,7 +23,6 @@ class UserRecord extends Model
         $this->setSchema('dbo');
         $this->setSource('users');
 
-//        $this->belongsTo('role_id', Role::class, 'id');
 
         $this->hasMany('id', PostRecord::class, 'user_id');
         $this->hasMany('id', ReplyPostRecord::class, 'user_id');

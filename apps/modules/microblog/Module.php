@@ -21,9 +21,11 @@ class Module implements ModuleDefinitionInterface
 
             'Dex\Microblog\Core\Application\Service' => __DIR__ . '/Core/Application/Service',
             'Dex\Microblog\Core\Application\Request' => __DIR__ . '/Core/Application/Request',
+            'Dex\Microblog\Core\Application\Response'=> __DIR__ . '/Core/Application/Response',
             'Dex\Microblog\Core\Application\EventSubscriber' => __DIR__ . '/Core/Application/EventSubscriber',
 
             'Dex\Microblog\Infrastructure\Persistence' => __DIR__ . '/Infrastructure/Persistence',
+            'Dex\Microblog\Infrastructure\Persistence\Record'=> __DIR__ . '/Infrastructure/Persistence/Record',
 
             'Dex\Microblog\Presentation\Web\Controller' => __DIR__ . '/Presentation/Web/Controller',
             'Dex\Microblog\Presentation\Web\Validator' => __DIR__ . '/Presentation/Web/Validator',

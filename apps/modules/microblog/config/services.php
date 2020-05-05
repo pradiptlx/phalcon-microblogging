@@ -21,6 +21,6 @@ $di->set('sqlUserRepository', function () {
     return new SqlUserRepository($this);
 });
 
-$di->set('UserLoginService', function () use ($di) {
+$di->set('userLoginService', function () use ($di) {
     return new UserLoginService($di->get('sqlUserRepository'));
 });
