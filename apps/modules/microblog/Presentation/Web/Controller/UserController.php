@@ -72,7 +72,7 @@ class UserController extends Controller
 
     public function registerAction()
     {
-        
+
         $this->view->setVar('title', 'Register Page');
         if ($this->request->isPost()) {
 //            $service = new CreateUserAccountService()
@@ -120,7 +120,7 @@ class UserController extends Controller
             $response = $this->userLoginService->execute($userLoginRequest);
 
             if ($response->getError()) {
-                $this->flashSession->error($response->getMessage());
+                $this->flashSession->error($response->getCode() . ' ' . $response->getMessage());
                 return $this->response->redirect('');
             } else {
                 $this->flashSession->success($response->getMessage());
@@ -150,7 +150,7 @@ class UserController extends Controller
             $this->session->remove('last_url');
 
         $this->flashSession->success("Successfully logout");
-        return $this->response->redirect('login');
+        return $this->response->redirect('user/login');
     }
 
 }

@@ -17,7 +17,7 @@ class IndexController extends Controller
         echo var_dump($result);
     }
 
-    public function fourOhFour()
+    public function fourOhFourAction()
     {
         $this->view->title = 'Whoops!';
         return $this->view->pick('fourohfour');
