@@ -23,8 +23,8 @@ $container['router'] = function() use ($defaultModule, $modules) {
 	$router->notFound(
 		[
 			'namespace' => 'Dex\Microblog\Presentation\Web\Controller',
-			'controller' => 'error',
-			'action'     => 'route404',
+			'controller' => 'index',
+			'action'     => 'fourOhFour',
 		]
 	);
 
