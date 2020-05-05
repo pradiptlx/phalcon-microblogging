@@ -17,7 +17,7 @@ class UserController extends Controller
     public function initialize()
     {
         // $this->createUserAccountService = $this->di->get('createUserAccountService');
-        // $this->userLoginService = $this->di->get('userLoginService');
+        $this->userLoginService = $this->di->get('userLoginService');
 
         if (is_null($this->router->getActionName())) {
             $this->response->redirect('user/login');

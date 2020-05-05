@@ -37,7 +37,7 @@
                     {#<div class="w-full text-center p-t-27 p-b-239">
 						<span class="txt1">
 							Forgot
-						</span>
+                        </span>
 
                         <a href="{{ url('user/forgot') }}" class="txt2">
                             User name / password?
