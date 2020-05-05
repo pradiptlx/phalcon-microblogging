@@ -13,13 +13,16 @@ class IndexController extends ControllerBase
 
     public function fourOhFourAction()
     {
+        $this->view->title = 'Whoops!';
         return $this->view->pick('fourohfour');
     }
 
     public function fiveOhZero()
     {
+        $this->view->title = 'Whoops!';
         return $this->view->pick('fiveohzero');
     }
+
 
 }
 
