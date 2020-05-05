@@ -120,10 +120,10 @@
                                                 <i class="fas fa-reply"></i> Reply
                                             </button>
 
-                                            {% if repliesCounter[index] != 0 %}
+                                            {% if post.replyCounter != 0 %}
                                                 <button type="button" class="btn float-right btn-secondary btn-sm">
                                                     Replies <span
-                                                            class="badge badge-light">{{ repliesCounter[index] }}</span>
+                                                            class="badge badge-light">{{ post.replyCounter }}</span>
                                                     <span class="sr-only">replies</span>
                                                 </button>
                                             {% endif %}
@@ -153,7 +153,7 @@
                         {% else %}
                             <div class="card my-2">
                                 <div class="card-body">
-                                    <a href="{{ url.get(links[index]) }}">
+                                    <a href="{{ url('viewPost/'~post.id) }}">
                                         <h4 class="post-title">
                                             {{ post.title }}
                                         </h4>
@@ -172,9 +172,9 @@
                                         <i class="fas fa-reply"></i> Reply
                                     </button>
 
-                                    {% if repliesCounter[index] != 0 %}
+                                    {% if post.replyCounter != 0 %}
                                         <button type="button" class="btn float-right btn-secondary btn-sm">
-                                            Replies <span class="badge badge-light">{{ repliesCounter[index] }}</span>
+                                            Replies <span class="badge badge-light">{{ post.replyCounter }}</span>
                                             <span class="sr-only">replies</span>
                                         </button>
                                     {% endif %}
@@ -182,7 +182,6 @@
                                     <div class="collapse" id="replyForm_{{ post.id }}">
                                         <div class="card card-body">
                                             <form action="{{ url('post/'~post.id~'/replyPost') }}" method="post">
-                                                <input type="hidden" name="{{ getTokenKey }}" value="{{ getToken }}">
                                                 <div class="form-group">
                                                     <label for="replyContent">Reply Something</label>
                                                     <textarea maxlength="120" name="content"

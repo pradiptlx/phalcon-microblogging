@@ -29,7 +29,10 @@ class ShowAllPostResponse extends GenericResponse
                 'replyCounter' => $postModel->getReplyCounter(),
                 'shareCounter' => $postModel->getShareCounter(),
                 'repostCounter' => $postModel->decRepostCounter(),
-                'created_at' => $postModel->getCreatedDate()
+                'created_at' => $postModel->getCreatedDate(),
+                'username' => $postModel->getUser()->getUsername(),
+                'fullname' => $postModel->getUser()->getFullname(),
+
             ];
         }
 
