@@ -18,15 +18,11 @@ class UserModel
 
     protected string $email;
 
-    protected string $numberOfPost;
-
-    /**
-     * @var RoleModel $roleUser
-     *
-     */
-    protected RoleModel $roleUser;
-
     protected string $password;
+
+    protected string $created_at;
+
+    protected string $updated_at;
 
     /**
      * UserModel constructor.
@@ -35,15 +31,13 @@ class UserModel
      * @param string $fullName
      * @param string $email
      * @param string $password
-     * @param RoleModel $roleUser
      */
     public function __construct(
         UserId $id,
         string $username,
         string $fullName,
         string $email,
-        string $password,
-        RoleModel $roleUser
+        string $password
     )
     {
         $this->id = $id;
@@ -51,7 +45,6 @@ class UserModel
         $this->fullName = $fullName;
         $this->email = $email;
         $this->password = $password;
-        $this->roleUser = $roleUser;
 
     }
 

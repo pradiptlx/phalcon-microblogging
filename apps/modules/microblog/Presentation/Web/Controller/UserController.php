@@ -29,17 +29,23 @@ class UserController extends Controller
                 $this->di->getShared('sqlRoleRepository')
             );
 
-            if($service->execute($request)){
+            if ($service->execute($request)) {
                 // TODO: View success
                 $this->response->setStatusCode(200, 'Success');
-            }else{
+            } else {
                 // TODO: view failed
                 $this->response->setStatusCode(400, 'Bad request');
             }
         }
     }
 
-    public function loginAction(){
+    public function loginAction()
+    {
+        $headerCollection = $this->assets->collection('headerCss');
+        $headerCollection->addCss('/css/login/main.css');
+        $headerCollection->addCss('/css/login/index.css');
+        $this->view->setVar('title', 'Login Page');
+
         $request = $this->request;
 
         if ($request->isPost()) {
@@ -51,24 +57,17 @@ class UserController extends Controller
                 $password
             );
 
-            $userLoginService = new UserLoginService();
+            $userLoginService = new UserLoginService($this->di->get('sqlUserRepository'));
 
-            if($userLoginService->execute($userLoginRequest)){
-                $this->flash->success("Login Success");
+            $response = $userLoginService->execute($userLoginRequest);
 
-                $this->response->redirect('/microblog/home');
-            }else {
-                $this->flash->error("Can't Login");
+            $response->getError() ? $this->flashSession->error($response->getMessage()) :
+                $this->flashSession->success($response->getMessage());
 
-                $this->response->redirect('/microblog/user/login');
-            }
-
-//            return $this->view->pick("user/login");
-        } else if($request->isGet()){
-            $this->view->title = "Login page";
-
-            return $this->view->pick("user/login");
+            return $this->response->redirect('/');
         }
+
+        return $this->view->pick("user/login");
     }
 
 }

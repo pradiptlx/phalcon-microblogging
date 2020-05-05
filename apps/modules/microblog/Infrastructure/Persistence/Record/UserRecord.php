@@ -14,13 +14,11 @@ class UserRecord extends Model
     public string $fullname;
     public string $email;
     public string $password;
-    public string $role_id;
     public string $created_at;
     public string $updated_at;
 
     public function initialize(){
         $this->setConnectionService('db');
-        $this->setSource('user');
 
         $this->setSchema('dbo');
         $this->setSource('users');

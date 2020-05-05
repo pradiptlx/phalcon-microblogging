@@ -9,8 +9,11 @@ use Dex\Microblog\Core\Domain\Model\RoleId;
 use Dex\Microblog\Core\Domain\Model\RoleModel;
 use Dex\Microblog\Core\Domain\Model\UserId;
 use Dex\Microblog\Core\Domain\Model\UserModel;
+use Dex\microblog\Infrastructure\Persistence\Record\UserRecord;
 use Phalcon\Di\DiInterface;
 use Phalcon\Db;
+use Phalcon\Mvc\Model\Transaction\Failed;
+use Phalcon\Mvc\Model\Transaction\Manager;
 
 class SqlUserRepository implements UserRepository
 {
@@ -21,96 +24,69 @@ class SqlUserRepository implements UserRepository
         $this->di = $di;
     }
 
+    private function parsingRecord(UserRecord $record)
+    {
+        return new UserModel(
+            new UserId($record->id),
+            $record->username,
+            $record->fullname,
+            $record->email,
+            $record->password,
+        );
+    }
+
     public function byId(UserId $id): ?UserModel
     {
-        $db = $this->di->getShared('db');
+        $userRecord = UserRecord::findFirstById($id->getId());
 
-        $query = "SELECT id, username, fullname, email, password, role_id
-                    FROM users
-                    WHERE id = :id";
-        $result = $db->fetchOne($query, Db::FETCH_ASSOC, [
-            'id' => $id->getId()
-        ]);
+        return $this->parsingRecord($userRecord);
+    }
 
-        if ($result) {
-            // ROLE MODEL
-            $roleModel = new SqlRoleRepository($this->di);
-            $roleId = new RoleId($result['role_id']);
+    public function byUsername(string $username): ?UserModel
+    {
+        $userRecord = UserRecord::findFirstByUsername($username);
 
-            $user = new UserModel(
-                new UserId($result['id']),
-                $result['username'],
-                $result['fullname'],
-                $result['email'],
-                $result['password'],
-                $roleModel->byId($roleId)
-            );
-
-            return $user;
-        }
-
-        return null;
+        return $this->parsingRecord($userRecord);
     }
 
     public function saveUser(UserModel $user)
     {
-        $db = $this->di->getShared('db');
+        $trans = (new Manager())->get();
 
-        $query = "INSERT INTO users(
-                    id, username, fullname, email, password, role_id
-                    ) VALUES (
-                    :id, :username, :fullname, :email, :password, :role_id
-                    )";
+        try {
+            $userRecord = new UserRecord();
+            $userRecord->id = $user->getId()->getId();
+            $userRecord->username = $user->getUsername();
+            $userRecord->fullname = $user->getFullname();
+            $userRecord->email = $user->getEmail();
+            $userRecord->password = $user->getPassword();
+            $userRecord->created_at = (new \DateTime())->format('Y-m-d H:i:s');
+            $userRecord->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
 
-        $result = $db->query($query, [
-            'id' => $user->getId(),
-            'username' => $user->getUsername(),
-            'fullname' => $user->getFullname(),
-            'email' => $user->getEmail(),
-            'password' => $user->getPassword(),
-            'role_id' => $user->getRoleModel()->getRoleId()->getId()
-        ]);
+            if ($userRecord->save()) {
+                $trans->commit();
 
-        if ($result)
-            return true;
-        return false;
+                return true;
+            }
+
+            $trans->rollback();
+            throw new Failed((string)$userRecord->getMessages());
+        } catch (Failed $exception) {
+
+        }
     }
 
-    public function loginUser(string $username, string $password): ?UserModel
+    public function getPassword(UserId $userId): ?string
     {
-        $db = $this->di->getShared('db');
-
-        $query = "SELECT id, username, fullname, email, password, role_id
-                    FROM user
-                    WHERE username=:username AND password=:password";
-
-        $result = $db->query($query, Db::FETCH_ASSOC, [
-            'username' => $username,
-            'password' => password_hash($password, PASSWORD_BCRYPT)
+        $user = UserRecord::findFirst([
+            'conditions' => 'id=:id:',
+            'bind' => [
+                'id' => $userId->getId()
+            ]
         ]);
 
-        $role_query = "SELECT id, rolename, permissions
-                FROM roles
-                WHERE id=:id";
-
-        $result_role = $db->query($role_query, Db::FETCH_ASSOC, [
-            'id' => $result['role_id']
-        ]);
-
-        if($result && $result_role){
-            return new UserModel(
-                new UserId($result['id']),
-                $result['username'],
-                $result['fullname'],
-                $result['email'],
-                $result['password'],
-                new RoleModel(
-                    new RoleId($result['role_id']),
-                    $result_role['rolename'],
-                    $result_role['permissions']
-                )
-            );
-        }
+        if ($user->password)
+            return $user->password;
 
         return null;
     }

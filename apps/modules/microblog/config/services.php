@@ -20,7 +20,3 @@ $di['view'] = function () {
 $di->setShared('sqlUserRepository', function (){
    return new SqlUserRepository($this);
 });
-
-$di->setShared('sqlRoleRepository', function (){
-    return new SqlRoleRepository($this);
-});
