@@ -7,7 +7,7 @@ return array(
         'apiControllerNamespace' => '',
         'className' => 'Dex\Microblog\Module',
         'path' => APP_PATH . '/modules/microblog/Module.php',
-        'defaultRouting' => true,
+        'defaultRouting' => false,
         'defaultController' => 'user',
         'defaultAction' => 'login'
     ],

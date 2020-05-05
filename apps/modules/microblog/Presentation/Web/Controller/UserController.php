@@ -16,8 +16,8 @@ class UserController extends Controller
 
     public function initialize()
     {
-        $this->createUserAccountService = $this->di->get('createUserAccountService');
-        $this->userLoginService = $this->di->get('userLoginService');
+        // $this->createUserAccountService = $this->di->get('createUserAccountService');
+        // $this->userLoginService = $this->di->get('userLoginService');
 
         if (is_null($this->router->getActionName())) {
             $this->response->redirect('user/login');
@@ -148,7 +148,7 @@ class UserController extends Controller
             $this->session->remove('last_url');
 
         $this->flashSession->success("Successfully logout");
-        return $this->response->redirect('user/login');
+        return $this->response->redirect('login');
     }
 
 }
