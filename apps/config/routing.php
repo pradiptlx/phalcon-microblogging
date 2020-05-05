@@ -2,6 +2,11 @@
 
 use Phalcon\Mvc\Router;
 
+/**
+ * @var string $defaultModule
+ * @var array $modules
+ * @return Router
+ */
 $container['router'] = function() use ($defaultModule, $modules) {
 
 	$router = new Router(false);
@@ -13,7 +18,7 @@ $container['router'] = function() use ($defaultModule, $modules) {
 	$router->add('/', [
 	    'namespace' => $modules[$defaultModule]['webControllerNamespace'],
 		'module' => $defaultModule,
-	    'controller' => isset($modules[$defaultModule]['defaultController']) ? $modules[$defaultModule]['defaultController'] : 'index',
+	    'controller' => isset($modules[$defaultModule]['defaultController']) ? $modules[$defaultModule]['defaultController'] : 'post',
 	    'action' => isset($modules[$defaultModule]['defaultAction']) ? $modules[$defaultModule]['defaultAction'] : 'index'
 	]);
 
@@ -23,6 +28,7 @@ $container['router'] = function() use ($defaultModule, $modules) {
 	$router->notFound(
 		[
 			'namespace' => 'Dex\Microblog\Presentation\Web\Controller',
+			'module' => 'microblog',
 			'controller' => 'index',
 			'action'     => 'fourOhFour',
 		]
