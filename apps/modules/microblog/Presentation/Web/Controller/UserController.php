@@ -61,12 +61,13 @@ class UserController extends Controller
 
             $response = $userLoginService->execute($userLoginRequest);
 
-            $response->getError() ? $this->flashSession->error($response->getMessage()) :
+            if ($response->getError()) {
+                $this->flashSession->error($response->getMessage());
+                return $this->response->redirect('');
+            } else {
                 $this->flashSession->success($response->getMessage());
-
-            var_dump($response);
-            die();
-//            return $this->response->redirect('/');
+            }
+            return $this->response->redirect('/');
         }
 
         return $this->view->pick("user/login");
@@ -74,7 +75,24 @@ class UserController extends Controller
 
     public function logoutAction()
     {
+        if ($this->di->has('user')) {
+            $this->di->remove('user');
+        }
+        if ($this->session->has('user_id')) {
+            $this->session->remove('user_id');
+        }
 
+        if ($this->session->has('username'))
+            $this->session->remove('username');
+
+        if ($this->session->has('fullname'))
+            $this->session->remove('fullname');
+
+        if ($this->session->has('last_url'))
+            $this->session->remove('last_url');
+
+        $this->flashSession->success("Successfully logout");
+        return $this->response->redirect('/microblog/user/login');
     }
 
 }
