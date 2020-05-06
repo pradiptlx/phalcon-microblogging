@@ -58,6 +58,7 @@ class SqlUserRepository implements UserRepository
             $userRecord->fullname = $user->getFullname();
             $userRecord->email = $user->getEmail();
             $userRecord->password = $user->getPassword();
+            $userRecord->role_id = 'kosong';
             $userRecord->created_at = (new \DateTime())->format('Y-m-d H:i:s');
             $userRecord->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
 

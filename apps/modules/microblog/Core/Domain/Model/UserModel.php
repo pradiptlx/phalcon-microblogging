@@ -20,6 +20,8 @@ class UserModel
 
     protected string $password;
 
+    protected string $role_id;
+
     protected string $created_at;
 
     protected string $updated_at;
@@ -45,19 +47,20 @@ class UserModel
         $this->fullName = $fullName;
         $this->email = $email;
         $this->password = $password;
+        $this->role_id = 'kosong';
 
     }
 
-    public function getRoleUser()
-    {
-        return $this->roleUser->getRole();
-    }
+    // public function getRoleUser()
+    // {
+    //     return $this->roleUser->getRole();
+    // }
 
-    public function getPermissionUser()
-    {
+    // public function getPermissionUser()
+    // {
 
-        return $this->roleUser->getPermission();
-    }
+    //     return $this->roleUser->getPermission();
+    // }
 
     public function getId(): UserId
     {
@@ -84,30 +87,30 @@ class UserModel
         return $this->password;
     }
 
-    public function getRoleModel(): RoleModel
-    {
-        return $this->roleUser;
-    }
+    // public function getRoleModel(): RoleModel
+    // {
+    //     return $this->roleUser;
+    // }
 
     /**
      * @param string $role
      * @return RoleModel
      */
     // TODO: Setter role
-    public function setRoleUser(string $role): RoleModel
-    {
-        $this->roleUser->setRole($role);
+    // public function setRoleUser(string $role): RoleModel
+    // {
+    //     $this->roleUser->setRole($role);
 
-        return $this->roleUser;
-    }
+    //     return $this->roleUser;
+    // }
 
-    /**
-     * @param array $perm
-     */
-    // TODO: Setter perm user
-    public function setPermissionUser(array $perm = null)
-    {
-        $this->roleUser->setListPermission($perm);
-    }
+    // /**
+    //  * @param array $perm
+    //  */
+    // // TODO: Setter perm user
+    // public function setPermissionUser(array $perm = null)
+    // {
+    //     $this->roleUser->setListPermission($perm);
+    // }
 
 }

@@ -3,55 +3,45 @@
 
 namespace Dex\Microblog\Core\Application\Service;
 
-
-use Dex\Microblog\Core\Application\CreateUserAccountRequest;
-use Dex\Microblog\Core\Domain\Model\Repository\RoleRepository;
-use Dex\Microblog\Core\Domain\Model\Repository\UserRepository;
-use Dex\Microblog\Core\Domain\Model\RoleId;
-use Dex\Microblog\Core\Domain\Model\RoleModel;
+use Dex\Microblog\Core\Application\Request\CreateUserAccountRequest;
+use Dex\Microblog\Core\Application\Response\CreateUserAccountResponse;
+use Dex\Microblog\Core\Domain\Repository\UserRepository;
 use Dex\Microblog\Core\Domain\Model\UserId;
 use Dex\Microblog\Core\Domain\Model\UserModel;
-use Dex\Microblog\Infrastructure\Persistence\SqlRoleRepository;
 use Phalcon\Di\Injectable;
 
 class CreateUserAccountService extends Injectable
 {
 
-    private UserRepository $userRepository;
-    private RoleRepository $roleRepository;
+    protected UserRepository $userRepository;
 
-    public function __construct(
-        UserRepository $userRepository,
-        RoleRepository $roleRepository
-    )
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->roleRepository = $roleRepository;
-
     }
 
-    public function execute(CreateUserAccountRequest $request): bool
+    public function execute(CreateUserAccountRequest $request): CreateUserAccountResponse
     {
         //TODO: FIX role creation
-        $roleModel = new SqlRoleRepository($this->di);
-        $roleId = new RoleId();
 
-        $this->di->setShared('roleId', $roleId);
-
-        $user = new UserModel(
+        $userModel = new UserModel(
             $request->userId,
             $request->username,
             $request->fullname,
             $request->email,
             $request->password,
-            $roleModel->byId($roleId)
         );
 
-        $result = $this->userRepository->saveUser($user);
-        if ($result)
-            return true;
-
-        return false;
+        $result = $this->userRepository->saveUser($userModel);
+        if ($result){
+            $this->session->set('user_id', $userModel->getId()->getId());
+            $this->session->set('username', $userModel->getUsername());
+            $this->session->set('fullname', $userModel->getFullname());
+            return new CreateUserAccountResponse($userModel,'Akun berhasil dibuat',200,false);
+        }
+        else{
+            return new CreateUserAccountResponse($userModel,'Akun gagal dibuat',500,true);
+        }
     }
 
 }

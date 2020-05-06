@@ -1,11 +1,13 @@
 <?php
 
+use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
 use Dex\Microblog\Core\Application\Service\GetAllFilesService;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
 use Dex\Microblog\Core\Application\Service\UserLoginService;
 use Dex\Microblog\Infrastructure\Persistence\SqlFileRepository;
 use Dex\Microblog\Infrastructure\Persistence\SqlPostRepository;
-use Dex\Microblog\Infrastructure\Persistence\SqlUserRepository;
+use Dex\Microblog\Infrastructure\Persistence\sqlUserRepository;
+
 use Phalcon\Mvc\View;
 
 $di['view'] = function () {
@@ -45,4 +47,8 @@ $di->set('showAllService', function () use ($di) {
 $di->set('getAllFilesService', function () use ($di) {
     return new GetAllFilesService(
         $di->get('sqlFileManagerRepository'));
+});
+
+$di->set('createUserAccountService', function () use ($di) {
+    return new CreateUserAccountService($di->get('sqlUserRepository'));
 });

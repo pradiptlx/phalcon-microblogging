@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function initialize()
     {
-        // $this->createUserAccountService = $this->di->get('createUserAccountService');
+        $this->createUserAccountService = $this->di->get('createUserAccountService');
         $this->userLoginService = $this->di->get('userLoginService');
 
         if (is_null($this->router->getActionName())) {
@@ -84,18 +84,16 @@ class UserController extends Controller
             );
 
             // TODO: Create role registration
-            $service = new CreateUserAccountService(
-                $this->di->getShared('sqlUserRepository'),
-                $this->di->getShared('sqlRoleRepository')
-            );
+            $response = $this->createUserAccountService->execute($request);
 
-            if ($service->execute($request)) {
-                // TODO: View success
-                $this->response->setStatusCode(200, 'Success');
+            if ($response->getError()) {
+                $this->flashSession->error($response->getCode() . ' ' . $response->getMessage());
+                return $this->response->redirect('');
             } else {
-                // TODO: view failed
-                $this->response->setStatusCode(400, 'Bad request');
+                $this->flashSession->success($response->getMessage());
             }
+            
+            return $this->response->redirect('/');
         }
     }
 
