@@ -36,9 +36,44 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
         // TODO: Implement byId() method.
     }
 
-    public function byUserId(UserId $userId): ?PostModel
+    public function byUserId(UserId $userId): array
     {
-        // TODO: Implement byUserId() method.
+        $query = $this->modelsManager->createQuery(
+            'SELECT p.id, p.title, p.content, p.created_at, p.updated_at, p.repost_counter, 
+                    p.share_counter, p.reply_counter, u.fullname, u.username, p.user_id,
+                    u.email, u.password
+                    FROM Dex\Microblog\Infrastructure\Persistence\Record\PostRecord p
+                    JOIN Dex\Microblog\Infrastructure\Persistence\Record\UserRecord u 
+                    on p.user_id = :userId:'
+        );
+
+        $postsRecord = $query->execute(
+            [
+                'userId' => $userId->getId()
+            ]
+        );
+
+        $posts = [];
+        foreach ($postsRecord as $post) {
+            $posts[] = new PostModel(
+                new PostId($post->id),
+                $post->title,
+                $post->content,
+                new UserModel(
+                    new UserId($post->user_id),
+                    $post->username,
+                    $post->fullname,
+                    $post->email,
+                    $post->password
+                ),
+                $post->repost_counter,
+                $post->share_counter,
+                $post->reply_counter,
+                $post->created_at
+            );
+        }
+
+        return $posts;
     }
 
 

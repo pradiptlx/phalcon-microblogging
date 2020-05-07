@@ -12,7 +12,7 @@ interface PostRepository
 {
     public function byId(PostId $postId): ?PostModel;
 
-    public function byUserId(UserId $userId): ?PostModel;
+    public function byUserId(UserId $userId);
 
     public function getAll();
 

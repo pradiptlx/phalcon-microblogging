@@ -33,7 +33,7 @@ $container->setShared('session', function () {
     return $session;
 });
 
-$container['dispatcher'] = function () {
+$container['dispatcher'] = function () use ($modules) {
 
     $eventsManager = new Manager();
 
@@ -51,7 +51,16 @@ $container['dispatcher'] = function () {
 
             }
             return false;
-        }
+        }   
+    );
+
+    $eventsManager->attach(
+      'dispatch:beforeForward',
+      function (Event $event, Dispatcher $dispatcher, array $forward) use ($modules) {
+          $namespace = $modules[$forward['module']]['webControllerNamespace'];
+          $dispatcher->setModuleName($forward['module']);
+          $dispatcher->setNamespaceName($namespace);
+      }
     );
 
     $dispatcher = new Dispatcher();

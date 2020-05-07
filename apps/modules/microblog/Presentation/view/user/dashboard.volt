@@ -21,10 +21,10 @@
                     <!-- SIDEBAR USER TITLE -->
                     <div class="profile-usertitle">
                         <div class="profile-usertitle-name">
-                            {{ user.fullname }}
+                            {{ user.getFullname() }}
                         </div>
                         <div class="profile-usertitle-job">
-                            @{{ user.username }}
+                            @{{ user.getUsername() }}
                         </div>
                     </div>
                     <!-- END SIDEBAR USER TITLE -->
@@ -102,7 +102,7 @@
                                 </a>
                             </li>
 
-                            {% if (user_id is defined and user_id|upper == user.id) %}
+                            {% if (user_id is defined and user_id|upper == user.getId()) %}
                                 <li class="nav-item" id="liAcc">
                                     <a href="#account" class="nav-link" id="accountSettingsLink">
                                         <i class="fas fa-user-circle"></i>
@@ -153,19 +153,19 @@
                                 <div class="form-group">
                                     <label for="usernameLabel">Username</label>
                                     <input class="form-control" name="username" id="usernameLabel"
-                                           placeholder="{{ user.username }}">
+                                           placeholder="{{ user.getUsername() }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="fullnameLabel">Full Name</label>
                                     <input class="form-control" name="fullname" id="fullnameLabel"
-                                           placeholder="{{ user.fullname }}">
+                                           placeholder="{{ user.getFullname() }}">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="emailLabel">Email address</label>
                                     <input type="email" class="form-control" name="email" id="emailLabel"
-                                           placeholder="{{ user.email }}">
+                                           placeholder="{{ user.getEmail() }}">
                                 </div>
 
                                 <div class="form-group">

@@ -3,6 +3,7 @@
 use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
 use Dex\Microblog\Core\Application\Service\GetAllFilesService;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
+use Dex\Microblog\Core\Application\Service\ShowDashboardService;
 use Dex\Microblog\Core\Application\Service\UserLoginService;
 use Dex\Microblog\Infrastructure\Persistence\SqlFileRepository;
 use Dex\Microblog\Infrastructure\Persistence\SqlPostRepository;
@@ -51,4 +52,8 @@ $di->set('getAllFilesService', function () use ($di) {
 
 $di->set('createUserAccountService', function () use ($di) {
     return new CreateUserAccountService($di->get('sqlUserRepository'));
+});
+
+$di->set('showDashboardService', function () use ($di) {
+    return new ShowDashboardService($di->get('sqlPostRepository'),$di->get('sqlUserRepository'));
 });
