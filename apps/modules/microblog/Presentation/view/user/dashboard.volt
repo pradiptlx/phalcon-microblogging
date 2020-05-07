@@ -27,6 +27,14 @@
                             @{{ user.getUsername() }}
                         </div>
                     </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            {{ user.getFullname() }}
+                        </div>
+                        <div class="profile-usertitle-job">
+                            @{{ user.getUsername() }}
+                        </div>
+                    </div>
                     <!-- END SIDEBAR USER TITLE -->
                     <!-- SIDEBAR BUTTONS -->
                     <div class="profile-userbuttons">
@@ -102,7 +110,7 @@
                                 </a>
                             </li>
 
-                            {% if (user_id is defined and user_id|upper == user.getId()) %}
+                            {% if (user_id is defined and user_id|upper == user.getId().getId()) %}
                                 <li class="nav-item" id="liAcc">
                                     <a href="#account" class="nav-link" id="accountSettingsLink">
                                         <i class="fas fa-user-circle"></i>
@@ -119,7 +127,6 @@
             <div class="col-md-9" id="home">
                 <div class="profile-content">
                     {% for post in posts %}
-
                         <div class="card my-3 no-gutters" id="userPost">
                             <div class="card-header">
                                 <a href="{{ url('/post/viewPost/'~post.id) }}">

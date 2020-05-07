@@ -73,6 +73,7 @@ class UserController extends Controller
             $this->view->setVar('posts', $userPosts);
             $this->view->setVar('self', true);
             $this->view->setVar('user', $user);
+            $this->view->setVar('user_id', $user_id);
             $this->view->setVar('title', 'Dashboard');
             $this->view->pick('user/dashboard');
         }
