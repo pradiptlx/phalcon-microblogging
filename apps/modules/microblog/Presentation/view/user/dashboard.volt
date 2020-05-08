@@ -27,14 +27,6 @@
                             @{{ user.getUsername() }}
                         </div>
                     </div>
-                    <div class="profile-usertitle">
-                        <div class="profile-usertitle-name">
-                            {{ user.getFullname() }}
-                        </div>
-                        <div class="profile-usertitle-job">
-                            @{{ user.getUsername() }}
-                        </div>
-                    </div>
                     <!-- END SIDEBAR USER TITLE -->
                     <!-- SIDEBAR BUTTONS -->
                     <div class="profile-userbuttons">
@@ -133,7 +125,7 @@
                                     {{ post.title }}
                                 </a>
 
-                                {% if user_id is defined and post.user_id == user_id %}
+                                {% if user_id is defined and user_id|upper == user.getId().getId() %}
                                     <form class="float-right" action="{{ url('/post/'~post.id~'/deletePost') }}"
                                           method="post">
                                         <input type="hidden" name="postId" value="{{ post.id }}">

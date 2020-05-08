@@ -5,8 +5,11 @@ use Dex\Microblog\Core\Application\Service\GetAllFilesService;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
 use Dex\Microblog\Core\Application\Service\ShowDashboardService;
 use Dex\Microblog\Core\Application\Service\UserLoginService;
+use Dex\Microblog\Core\Application\Service\ViewPostService;
+use Dex\Microblog\Core\Application\Service\ViewReplyByPostService;
 use Dex\Microblog\Infrastructure\Persistence\SqlFileRepository;
 use Dex\Microblog\Infrastructure\Persistence\SqlPostRepository;
+use Dex\Microblog\Infrastructure\Persistence\SqlReplyPostRepository;
 use Dex\Microblog\Infrastructure\Persistence\sqlUserRepository;
 
 use Phalcon\Mvc\View;
@@ -36,6 +39,10 @@ $di->set('sqlFileManagerRepository', function () use ($di) {
     return new SqlFileRepository();
 });
 
+$di->set('sqlReplyPostRepository', function () use ($di) {
+    return new SqlReplyPostRepository();
+});
+
 $di->set('userLoginService', function () use ($di) {
     return new UserLoginService($di->get('sqlUserRepository'));
 });
@@ -55,5 +62,18 @@ $di->set('createUserAccountService', function () use ($di) {
 });
 
 $di->set('showDashboardService', function () use ($di) {
-    return new ShowDashboardService($di->get('sqlPostRepository'),$di->get('sqlUserRepository'));
+    return new ShowDashboardService($di->get('sqlPostRepository'), $di->get('sqlUserRepository'));
 });
+
+$di->set('viewPostService', function () use ($di) {
+    return new ViewPostService(
+        $di->get('sqlPostRepository')
+    );
+});
+
+$di->set('viewReplyByPostService', function () use ($di) {
+    return new ViewReplyByPostService(
+        $di->get('sqlReplyPostRepository')
+    );
+});
+

@@ -7,6 +7,7 @@ use Dex\Microblog\Core\Application\Request\ShowDashboardRequest;
 use Dex\Microblog\Core\Application\Response\ShowDashboardResponse;
 use Dex\Microblog\Core\Domain\Model\PostModel;
 use Dex\Microblog\Core\Domain\Model\UserId;
+use Dex\Microblog\Core\Domain\Model\UserModel;
 use Dex\Microblog\Core\Domain\Repository\PostRepository;
 use Dex\Microblog\Core\Domain\Repository\UserRepository;
 
@@ -33,7 +34,7 @@ class ShowDashboardService extends \Phalcon\Di\Injectable
          * @var UserModel $post
          */
         $user = $this->userRepository->byId($userId);
-        
+
         return new ShowDashboardResponse($user, $posts, 'Show Post by User', 200, false);
 
     }
