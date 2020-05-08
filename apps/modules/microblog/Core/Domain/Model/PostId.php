@@ -13,9 +13,9 @@ class PostId
      */
     protected string $id;
 
-    public function __construct($id = null)
+    public function __construct($id = "")
     {
-        $this->id = Uuid::uuid4()->toString();
+        $this->id = $id ?: Uuid::uuid4()->toString();
     }
 
     public function getId()

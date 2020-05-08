@@ -42,28 +42,30 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
                 WHERE p.id = :id:"
         );
 
-        $postRecord = $query->execute(
+        $postRecords = $query->execute(
             [
                 'id' => $postId->getId()
             ]
         );
 
-        return new PostModel(
-            new PostId($postRecord->id),
-            $postRecord->title,
-            $postRecord->content,
-            new UserModel(
-                new UserId($postRecord->user_id),
-                $postRecord->username,
-                $postRecord->fullname,
-                $postRecord->email,
-                $postRecord->password,
-            ),
-            $postRecord->repost_counter,
-            $postRecord->reply_counter,
-            $postRecord->share_counter,
-            $postRecord->created_at
-        );
+        foreach ($postRecords as $postRecord) {
+            return new PostModel(
+                new PostId($postRecord->id),
+                $postRecord->title,
+                $postRecord->content,
+                new UserModel(
+                    new UserId($postRecord->user_id),
+                    $postRecord->username,
+                    $postRecord->fullname,
+                    $postRecord->email,
+                    $postRecord->password,
+                ),
+                $postRecord->repost_counter,
+                $postRecord->reply_counter,
+                $postRecord->share_counter,
+                $postRecord->created_at
+            );
+        }
     }
 
     public function byUserId(UserId $userId): array

@@ -153,7 +153,7 @@
                         {% else %}
                             <div class="card my-2">
                                 <div class="card-body">
-                                    <a href="{{ url('viewPost/'~post.id) }}">
+                                    <a href="{{ url('post/viewPost/'~post.id) }}">
                                         <h4 class="post-title">
                                             {{ post.title }}
                                         </h4>

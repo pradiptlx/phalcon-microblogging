@@ -9,7 +9,6 @@ use Dex\Microblog\Core\Application\Request\ViewReplyByPostRequest;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
 use Dex\Microblog\Core\Application\Service\ViewPostService;
 use Dex\Microblog\Core\Application\Service\ViewReplyByPostService;
-use Dex\Microblog\Core\Domain\Model\PostId;
 use Phalcon\Mvc\Controller;
 
 class PostController extends Controller
@@ -56,22 +55,22 @@ class PostController extends Controller
 
     public function viewPostAction()
     {
-        $this->session->set('last_url', $this->router->getControllerName() . '/' . $this->router->getActionName() . '/' . $this->router->getParams()[0]);
+        $this->view->setVar('title', 'View Post');
         $request = $this->request;
 
         $idPost = $this->router->getParams()[0];
 
         if (isset($idPost)) {
-            $idPostModel = new PostId($idPost);
-            $viewRequest = new ViewPostRequest($idPostModel);
-            $viewReplyRequest = new ViewReplyByPostRequest($idPostModel);
+            $viewRequest = new ViewPostRequest($idPost);
+            $viewReplyRequest = new ViewReplyByPostRequest($idPost);
 
             $responsePost = $this->viewPostService->execute($viewRequest);
             $responseReply = $this->viewReplyByPostService->execute($viewReplyRequest);
 
-            if (!$responsePost->getError()) {
+            if (!$responsePost->getError() && !$responseReply->getError()) {
                 $this->view->setVar('post', $responsePost->getData());
                 $this->view->setVar('reply', $responseReply->getData());
+                $this->view->setVar('title', $responsePost->getData()->title);
 
                 return $this->view->pick('post/viewPost');
             }

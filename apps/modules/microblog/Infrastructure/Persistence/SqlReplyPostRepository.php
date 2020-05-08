@@ -11,6 +11,7 @@ use Dex\Microblog\Core\Domain\Model\UserId;
 use Dex\Microblog\Core\Domain\Model\UserModel;
 use Dex\Microblog\Core\Domain\Repository\ReplyPostRepository;
 use Dex\Microblog\Infrastructure\Persistence\Record\ReplyPostRecord;
+use Phalcon\Di\Exception;
 use Phalcon\Mvc\Model\Transaction\Failed;
 use Phalcon\Mvc\Model\Transaction\Manager;
 
@@ -26,13 +27,14 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
                 FROM Dex\Microblog\Infrastructure\Persistence\Record\ReplyPostRecord r
                 JOIN Dex\Microblog\Infrastructure\Persistence\Record\PostRecord p on r.post_id = p.id
                 JOIN Dex\Microblog\Infrastructure\Persistence\Record\UserRecord u on u.id=p.user_id
-                WHERE r.post_id = :id: ORDER BY r.created_at";
+                WHERE r.post_id = :id: ORDER BY p.created_at";
 
         $modelManager = $this->modelsManager->createQuery($query);
 
         $repliesTmp = $modelManager->execute([
-            'post_id' => $postId->getId()
+            'id' => $postId->getId()
         ]);
+
 
         $replies = [];
 

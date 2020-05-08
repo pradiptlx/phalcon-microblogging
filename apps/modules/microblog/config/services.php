@@ -35,11 +35,11 @@ $di->set('sqlPostRepository', function () {
     return new SqlPostRepository();
 });
 
-$di->set('sqlFileManagerRepository', function () use ($di) {
+$di->set('sqlFileManagerRepository', function () {
     return new SqlFileRepository();
 });
 
-$di->set('sqlReplyPostRepository', function () use ($di) {
+$di->set('sqlReplyPostRepository', function () {
     return new SqlReplyPostRepository();
 });
 

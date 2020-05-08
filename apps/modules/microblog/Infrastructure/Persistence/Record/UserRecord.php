@@ -25,7 +25,7 @@ class UserRecord extends Model
 
 
         $this->hasMany('id', PostRecord::class, 'user_id');
-        $this->hasMany('id', ReplyPostRecord::class, 'user_id');
+//        $this->hasMany('id', ReplyPostRecord::class, 'user_id');
     }
 
 }

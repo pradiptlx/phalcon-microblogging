@@ -16,7 +16,7 @@ class ShowAllPostService extends \Phalcon\Di\Injectable
 
     public function __construct(PostRepository $postRepository)
     {
-        $this->getAllFilesService = $this->di->get('getAllFilesService');
+//        $this->getAllFilesService = $this->di->get('getAllFilesService');
         $this->postRepository = $postRepository;
     }
 
@@ -27,7 +27,7 @@ class ShowAllPostService extends \Phalcon\Di\Injectable
         /**
          * @var PostModel $post
          */
-        foreach ($posts as $post) {
+        /*foreach ($posts as $post) {
             $fileRequest = new GetAllFilesRequest($post->getId()->getId());
 
             $response = $this->getAllFilesService->execute($fileRequest);
@@ -35,7 +35,7 @@ class ShowAllPostService extends \Phalcon\Di\Injectable
             if (!$response->getError()) {
                 $files[] = $response->getData();
             }
-        }
+        }*/
 
         return new ShowAllPostResponse($posts, 'Show All Post', 200, false);
 

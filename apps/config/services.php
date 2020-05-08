@@ -51,7 +51,7 @@ $container['dispatcher'] = function () use ($modules) {
 
             }
             return false;
-        }   
+        }
     );
 
     $eventsManager->attach(
