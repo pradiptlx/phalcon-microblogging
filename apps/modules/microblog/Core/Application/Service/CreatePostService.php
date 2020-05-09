@@ -49,7 +49,6 @@ class CreatePostService extends Injectable
         $post = $this->postRepository->savePost($postModel);
 
         if (!empty($request->files) || isset($request->files)) {
-            $fileStatus = false;
             /**
              * @var FileManagerRequest $file
              */

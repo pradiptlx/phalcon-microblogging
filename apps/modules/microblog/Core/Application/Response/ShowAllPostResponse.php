@@ -14,26 +14,52 @@ class ShowAllPostResponse extends GenericResponse
         parent::__construct($posts, $message, $code, $error);
     }
 
-    private function parsingModel(array $postModels)
+    private function parsingModel(array $datas)
     {
         $listPosts = [];
+//        $listFiles = [];
 
-        /**
-         * @var PostModel $postModel
-         */
-        foreach ($postModels as $postModel) {
-            $listPosts[] = (object)[
-                'id' => $postModel->getId()->getId(),
-                'title' => $postModel->getTitle(),
-                'content' => $postModel->getContent(),
-                'replyCounter' => $postModel->getReplyCounter(),
-                'shareCounter' => $postModel->getShareCounter(),
-                'repostCounter' => $postModel->decRepostCounter(),
-                'created_at' => $postModel->getCreatedDate(),
-                'username' => $postModel->getUser()->getUsername(),
-                'fullname' => $postModel->getUser()->getFullname(),
+        // Not efficient
+        /*foreach ($datas[1] as $data) {
+            if (!empty($data)) {
+                $listFiles[] = (object)[
+                    'path' => $data[0]->getPath(),
+                    'filename' => $data[0]->getFilename()
+                ];
+            }
+        }*/
 
-            ];
+        for ($i = 0; $i < sizeof($datas[0]); $i++) {
+            if (!empty($datas[1][$i])) {
+                $listPosts[] = (object)[
+                    'id' => $datas[0][$i]->getId()->getId(),
+                    'title' => $datas[0][$i]->getTitle(),
+                    'content' => $datas[0][$i]->getContent(),
+                    'replyCounter' => $datas[0][$i]->getReplyCounter(),
+                    'shareCounter' => $datas[0][$i]->getShareCounter(),
+                    'repostCounter' => $datas[0][$i]->decRepostCounter(),
+                    'created_at' => $datas[0][$i]->getCreatedDate(),
+                    'username' => $datas[0][$i]->getUser()->getUsername(),
+                    'fullname' => $datas[0][$i]->getUser()->getFullname(),
+                    'file' => (object)[
+                        'path' => $datas[1][$i][0]->getPath() . '/' . $datas[1][$i][0]->getFilename(),
+                        'filename' => $datas[1][$i][0]->getFilename()
+                    ]
+                ];
+            } else {
+                $listPosts[] = (object)[
+                    'id' => $datas[0][$i]->getId()->getId(),
+                    'title' => $datas[0][$i]->getTitle(),
+                    'content' => $datas[0][$i]->getContent(),
+                    'replyCounter' => $datas[0][$i]->getReplyCounter(),
+                    'shareCounter' => $datas[0][$i]->getShareCounter(),
+                    'repostCounter' => $datas[0][$i]->decRepostCounter(),
+                    'created_at' => $datas[0][$i]->getCreatedDate(),
+                    'username' => $datas[0][$i]->getUser()->getUsername(),
+                    'fullname' => $datas[0][$i]->getUser()->getFullname(),
+                    'file' => null
+                ];
+            }
         }
 
         return $listPosts;

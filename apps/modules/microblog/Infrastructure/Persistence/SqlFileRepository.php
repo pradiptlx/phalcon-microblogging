@@ -7,6 +7,9 @@ namespace Dex\Microblog\Infrastructure\Persistence;
 use Dex\Microblog\Core\Domain\Model\FileManagerId;
 use Dex\Microblog\Core\Domain\Model\FileManagerModel;
 use Dex\Microblog\Core\Domain\Model\PostId;
+use Dex\Microblog\Core\Domain\Model\PostModel;
+use Dex\Microblog\Core\Domain\Model\UserId;
+use Dex\Microblog\Core\Domain\Model\UserModel;
 use Dex\Microblog\Core\Domain\Repository\FileManagerRepository;
 use Dex\Microblog\Infrastructure\Persistence\Record\FileManagerRecord;
 use Phalcon\Mvc\Model\Transaction\Failed;
@@ -55,8 +58,11 @@ class SqlFileRepository extends \Phalcon\Di\Injectable implements FileManagerRep
     public function byPostId(string $postId)
     {
 
-        $query = "SELECT f.*
+        $query = "SELECT f.id, f.path, f.file_name, f.post_id, u.id AS userId, u.username, u.fullname,
+                        u.email, p.title, p.content
                         FROM Dex\Microblog\Infrastructure\Persistence\Record\FileManagerRecord f
+                        JOIN Dex\Microblog\Infrastructure\Persistence\Record\PostRecord p on f.post_id = p.id
+                        JOIN Dex\Microblog\Infrastructure\Persistence\Record\UserRecord u on u.id=p.user_id
                         WHERE f.post_id=:post_id:";
 
         $modelManager = $this->modelsManager->createQuery($query);
@@ -73,7 +79,18 @@ class SqlFileRepository extends \Phalcon\Di\Injectable implements FileManagerRep
                 new FileManagerId($file->id),
                 $file->file_name,
                 $file->path,
-                $file->post_id
+                new PostModel(
+                    new PostId($file->post_id),
+                    $file->title,
+                    $file->content,
+                    new UserModel(
+                        new UserId($file->userId),
+                        $file->username,
+                        $file->fullname,
+                        $file->email,
+                        ""
+                    )
+                )
             );
         }
 

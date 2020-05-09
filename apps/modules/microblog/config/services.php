@@ -84,7 +84,8 @@ $di->set('showDashboardService', function () use ($di) {
 
 $di->set('viewPostService', function () use ($di) {
     return new ViewPostService(
-        $di->get('sqlPostRepository')
+        $di->get('sqlPostRepository'),
+        $di->get('sqlFileManagerRepository')
     );
 });
 

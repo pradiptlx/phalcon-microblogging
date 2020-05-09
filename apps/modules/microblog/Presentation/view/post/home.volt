@@ -91,17 +91,17 @@
             {% for index, post in posts %}
                 <div class="col-6 mx-auto">
                     <div class="post-preview">
-                        {% if files[index].path is defined %}
+                        {% if post.file is defined %}
                             <div class="card my-2 no-gutters" style="max-width: 540px">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <img src="{{ static_url(files[index].path) }}"
-                                             alt="{{ files[index].file_name }}" class="card-img"
+                                        <img src="{{ static_url(post.file.path) }}"
+                                             alt="{{ post.file.filename }}" class="card-img"
                                         />
                                     </div>
                                     <div class="col-md-8">
                                         <div class="card-body">
-                                            <a href="{{ url.get(links[index]) }}">
+                                            <a href="{{ url('post/viewPost/'~post.id) }}">
                                                 <h4 class="post-title">
                                                     {{ post.title }}
                                                 </h4>
