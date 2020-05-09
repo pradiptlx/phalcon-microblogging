@@ -54,7 +54,8 @@ class CreatePostService extends Injectable
              * @var FileManagerRequest $file
              */
             foreach ($request->files as $file) {
-                $path = $postModel->getUser()->getId()->getId() . '/' . $postModel->getId()->getId() . '/' . $file->filename;
+                $path = 'files/' . $postModel->getUser()->getId()->getId() . '/' . $postModel->getId()->getId();
+                $filePath = $path . '/' . $file->filename;
                 $fileManagerModel = new FileManagerModel(
                     $file->fileManagerId,
                     $file->filename,
@@ -62,17 +63,19 @@ class CreatePostService extends Injectable
                     $postModel
                 );
                 $fileStatus = $this->fileManagerRepository->saveFile($fileManagerModel);
+
+                if ($fileStatus === true)
+                    $file->file->moveTo($filePath);
+                elseif ($fileStatus instanceof Failed)
+                    return new CreatePostResponse($fileStatus, $fileStatus->getMessage(), 500, true);
             }
 
-            if ($fileStatus instanceof Failed)
-                return new CreatePostResponse($fileStatus, $fileStatus->getMessage(), 500, true);
         }
 
 
-        // TODO: Finish Post
         if ($post === true) {
             // Set something like session
-            return new CreatePostResponse(null, 'Create Post Success', 200, true);
+            return new CreatePostResponse(null, 'Create Post Success', 200, false);
         } elseif ($post instanceof Failed)
             return new CreatePostResponse($post, $post->getMessage(), 500, true);
 

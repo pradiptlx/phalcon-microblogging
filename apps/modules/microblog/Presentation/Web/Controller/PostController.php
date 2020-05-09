@@ -155,7 +155,8 @@ class PostController extends Controller
     private function initializeFileManager(File $file)
     {
         return new FileManagerRequest(
-            $file->getName()
+            $file->getName(),
+            $file
         );
     }
 

@@ -46,7 +46,7 @@ class DeletePostService
 //        if ($delete === true && $deleteFile === true && $deleteRep === true)
 //            return new DeletePostResponse(null, 'Delete Post', 200, false);
 
-        return new DeletePostResponse(null, 'Delete Post', 200, false);
+        return new DeletePostResponse(null, 'Delete Post Success', 200, false);
     }
 
 }

@@ -23,15 +23,15 @@ class SqlFileRepository extends \Phalcon\Di\Injectable implements FileManagerRep
     public function saveFile(FileManagerModel $fileManagerModel)
     {
         try {
-            if (!mkdir('files/' . $fileManagerModel->getPath(), 0755, true))
+            if (!mkdir($fileManagerModel->getPath(), 0755, true))
                 throw new Failed('Error create directory');
 
             $transx = (new Manager())->get();
             $fileRecord = new FileManagerRecord();
-            $fileRecord->id = $fileManagerModel->getId();
+            $fileRecord->id = $fileManagerModel->getId()->getId();
             $fileRecord->file_name = $fileManagerModel->getFileName();
             $fileRecord->path = $fileManagerModel->getPath();
-            $fileRecord->post_id = $fileManagerModel->getPostId();
+            $fileRecord->post_id = $fileManagerModel->getPost()->getId()->getId();
 
             if ($fileRecord->save()) {
                 $transx->commit();

@@ -6,28 +6,28 @@ namespace Dex\Microblog\Core\Domain\Model;
 
 class FileManagerModel
 {
-    protected string $id;
+    protected FileManagerId $id;
 
     protected string $fileName;
 
     protected string $path;
 
-    protected string $postId;
+    protected PostModel $post;
 
     public function __construct(
         FileManagerId $fileManagerId,
         string $fileName,
         string $path,
-        string $postId
+        PostModel $post
     )
     {
         $this->id = $fileManagerId;
         $this->fileName = $fileName;
         $this->path = $path;
-        $this->postId = $postId;
+        $this->post = $post;
     }
 
-    public function getId(): string
+    public function getId(): FileManagerId
     {
         return $this->id;
     }
@@ -42,9 +42,9 @@ class FileManagerModel
         return $this->path;
     }
 
-    public function getPostId(): string
+    public function getPost(): PostModel
     {
-        return $this->postId;
+        return $this->post;
     }
 
 
