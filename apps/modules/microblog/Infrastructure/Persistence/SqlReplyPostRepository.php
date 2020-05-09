@@ -91,8 +91,8 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
 
         $replyRecord = ReplyPostRecord::findFirstById($repId);
 
-        if($replyRecord){
-            if($replyRecord->delete()){
+        if ($replyRecord) {
+            if ($replyRecord->delete()) {
                 $transx->commit();
                 return true;
             }
@@ -103,8 +103,23 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
         return false;
     }
 
-    //TODO: Mungkin butuh
-    public function deleteReplyByPost(PostModel $postModel){
+    public function deleteReplyByPost(PostId $postId)
+    {
+        $transx = (new Manager())->get();
 
+        $replyRecord = ReplyPostRecord::findByPostId($postId->getId());
+
+        if (isset($replyRecord)) {
+            if ($replyRecord->delete()) {
+                $transx->commit();
+
+                return true;
+            }
+
+            $transx->rollback();
+            return new Failed("Can't Delete Reply");
+        }
+
+        return false;
     }
 }

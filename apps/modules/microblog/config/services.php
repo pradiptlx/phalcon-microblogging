@@ -2,6 +2,7 @@
 
 use Dex\Microblog\Core\Application\Service\CreatePostService;
 use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
+use Dex\Microblog\Core\Application\Service\DeletePostService;
 use Dex\Microblog\Core\Application\Service\GetAllFilesService;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
 use Dex\Microblog\Core\Application\Service\ShowDashboardService;
@@ -65,6 +66,14 @@ $di->set('createUserAccountService', function () use ($di) {
 $di->set('createPostService', function () use ($di) {
     return new CreatePostService(
         $di->get('sqlPostRepository'),
+        $di->get('sqlFileManagerRepository')
+    );
+});
+
+$di->set('deletePostService', function () use ($di) {
+    return new DeletePostService(
+        $di->get('sqlPostRepository'),
+        $di->get('sqlReplyPostRepository'),
         $di->get('sqlFileManagerRepository')
     );
 });

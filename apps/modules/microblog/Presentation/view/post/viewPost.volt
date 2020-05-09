@@ -17,7 +17,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-md-10 mx-auto">
-                    {% if user_id === post.user_id %}
+                    {% if username === post.username %}
                         <button type="button"
                                 data-toggle="modal" data-target="#deletePost"
                                 class="btn btn-danger float-right">

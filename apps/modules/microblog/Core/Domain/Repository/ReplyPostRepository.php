@@ -13,4 +13,8 @@ interface ReplyPostRepository
 
     public function save(ReplyPostModel $replyPostModel);
 
+    public function deleteReplyByPost(PostId $postId);
+
+    public function deleteReply(string $repId);
+
 }

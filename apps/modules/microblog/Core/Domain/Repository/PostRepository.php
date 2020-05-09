@@ -22,6 +22,8 @@ interface PostRepository
 
     public function savePost(PostModel $post, int $isReply = 0);
 
+    public function deletePost(PostId $postId);
+
     public function getTitle(PostId $postId): ?PostModel;
 
     public function getFile(PostId $postId): ?PostModel;

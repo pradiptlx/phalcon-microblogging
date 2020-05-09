@@ -6,6 +6,7 @@ namespace Dex\Microblog\Infrastructure\Persistence;
 
 use Dex\Microblog\Core\Domain\Model\FileManagerId;
 use Dex\Microblog\Core\Domain\Model\FileManagerModel;
+use Dex\Microblog\Core\Domain\Model\PostId;
 use Dex\Microblog\Core\Domain\Repository\FileManagerRepository;
 use Dex\Microblog\Infrastructure\Persistence\Record\FileManagerRecord;
 use Phalcon\Mvc\Model\Transaction\Failed;
@@ -77,5 +78,35 @@ class SqlFileRepository extends \Phalcon\Di\Injectable implements FileManagerRep
         }
 
         return $fileModels;
+    }
+
+    public function deleteFileByPost(PostId $postId)
+    {
+        $fileRecord = FileManagerRecord::findByPostId($postId->getId());
+        $paths = [];
+
+        foreach ($fileRecord as $file) {
+            $paths[] = $file->path;
+        }
+
+        $transx = (new Manager())->get();
+
+        if ($fileRecord->delete()) {
+            foreach ($paths as $path) {
+                if (strpos($path, "/") === 0) {
+                    $path = substr_replace($path, '', 0, 1);
+                }
+
+                if (!unlink($path)) {
+                    $transx->rollback();
+                    return new Failed('Can not delete file');
+                }
+            }
+
+            $transx->commit();
+            return true;
+        }
+
+        return false;
     }
 }

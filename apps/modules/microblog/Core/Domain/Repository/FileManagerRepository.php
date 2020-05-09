@@ -6,6 +6,7 @@ namespace Dex\Microblog\Core\Domain\Repository;
 
 use Dex\Microblog\Core\Domain\Model\FileManagerId;
 use Dex\Microblog\Core\Domain\Model\FileManagerModel;
+use Dex\Microblog\Core\Domain\Model\PostId;
 
 interface FileManagerRepository
 {
@@ -17,5 +18,6 @@ interface FileManagerRepository
 
     public function getPost(FileManagerId $fileManagerId);
 
+    public function deleteFileByPost(PostId $postId);
 
 }

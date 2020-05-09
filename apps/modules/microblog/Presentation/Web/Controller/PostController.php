@@ -5,10 +5,12 @@ namespace Dex\Microblog\Presentation\Web\Controller;
 
 
 use Dex\Microblog\Core\Application\Request\CreatePostRequest;
+use Dex\Microblog\Core\Application\Request\DeletePostRequest;
 use Dex\Microblog\Core\Application\Request\FileManagerRequest;
 use Dex\Microblog\Core\Application\Request\ViewPostRequest;
 use Dex\Microblog\Core\Application\Request\ViewReplyByPostRequest;
 use Dex\Microblog\Core\Application\Service\CreatePostService;
+use Dex\Microblog\Core\Application\Service\DeletePostService;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
 use Dex\Microblog\Core\Application\Service\ViewPostService;
 use Dex\Microblog\Core\Application\Service\ViewReplyByPostService;
@@ -21,6 +23,7 @@ class PostController extends Controller
     private ShowAllPostService $showAllPostService;
     private ViewPostService $viewPostService;
     private ViewReplyByPostService $viewReplyByPostService;
+    private DeletePostService $deletePostService;
 
     public function initialize()
     {
@@ -28,6 +31,7 @@ class PostController extends Controller
         $this->viewPostService = $this->di->get('viewPostService');
         $this->viewReplyByPostService = $this->di->get('viewReplyByPostService');
         $this->createPostService = $this->di->get('createPostService');
+        $this->deletePostService = $this->di->get('deletePostService');
 
         if (!$this->session->has('user_id')) {
             $this->response->redirect('/user/login');
@@ -120,6 +124,31 @@ class PostController extends Controller
         }
 
         $this->flashSession->error('Post not found');
+        return $this->response->redirect('/');
+    }
+
+    public function deletePostAction()
+    {
+        $request = $this->request;
+
+        if ($request->isPost()) {
+            $postId = $request->getPost('postId', 'string');
+
+            $requestDelete = new DeletePostRequest($postId);
+
+            $responseDelete = $this->deletePostService->execute($requestDelete);
+
+            if ($responseDelete->getError()) {
+                $this->flashSession->error($responseDelete->getMessage());
+            } else
+                $this->flashSession->success($responseDelete->getMessage());
+        }
+
+        if ($this->session->has('last_url')) {
+            $lastUrl = $this->session->get('last_url');
+            if ($lastUrl == 'user/dashboard')
+                return $this->response->redirect($lastUrl);
+        }
         return $this->response->redirect('/');
     }
 

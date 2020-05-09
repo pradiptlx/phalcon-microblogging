@@ -179,6 +179,24 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
         return new Failed("Failed create post");
     }
 
+    public function deletePost(PostId $postId)
+    {
+        $postRecord = PostRecord::findFirstById($postId->getId());
+
+        $title = $postRecord->title;
+
+        $transx = (new Manager())->get();
+
+        if ($postRecord->delete()) {
+            $transx->commit();
+            return true;
+        }
+
+        $transx->rollback();
+
+        return new Failed("Failed Delete Post " . $title);
+    }
+
     public function getTitle(PostId $postId): ?PostModel
     {
         // TODO: Implement getTitle() method.
