@@ -11,6 +11,8 @@ use Dex\Microblog\Core\Domain\Model\UserModel;
 use Dex\Microblog\Core\Domain\Repository\PostRepository;
 use Dex\Microblog\Infrastructure\Persistence\Record\PostRecord;
 use Phalcon\Di;
+use Phalcon\Mvc\Model\Transaction\Failed;
+use Phalcon\Mvc\Model\Transaction\Manager;
 
 class SqlPostRepository extends Di\Injectable implements PostRepository
 {
@@ -146,11 +148,35 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
 
     }
 
-    public function savePost(PostModel $post)
+    public function savePost(PostModel $post, int $isReply = 0)
     {
-        // TODO: Implement savePost() method.
+        $transx = (new Manager())->get();
+        $postRecord = new PostRecord();
 
-        return false;
+        $postRecord->id = $post->getId()->getId();
+        $postRecord->title = $post->getTitle();
+        $postRecord->content = $post->getContent();
+        $postRecord->created_at = (new \DateTime())->format('Y-m-d H:i:s');
+        $postRecord->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
+        $postRecord->user_id = $post->getUser()->getId()->getId();
+        $postRecord->isReply = $isReply;
+        $postRecord->share_counter = $post->getShareCounter();
+        $postRecord->repost_counter = $post->getRepostCounter();
+        if ($isReply) {
+            $postRecord->reply_counter = $post->incReplyCounter();
+        } else {
+            $postRecord->reply_counter = $post->getReplyCounter();
+        }
+
+        if ($postRecord->save()) {
+            $transx->commit();
+
+            return true;
+        }
+
+        $transx->rollback();
+
+        return new Failed("Failed create post");
     }
 
     public function getTitle(PostId $postId): ?PostModel

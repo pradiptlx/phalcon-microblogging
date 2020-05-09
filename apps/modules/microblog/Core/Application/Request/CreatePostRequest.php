@@ -11,13 +11,13 @@ class CreatePostRequest
     public PostId $id;
     public string $title;
     public string $content;
-    public FileManagerRequest $files;
+    public array $files;
     public string $user_id;
 
     public function __construct(
         string $title,
         string $content,
-        FileManagerRequest $files,
+        array $files,
         string $user_id
     )
     {

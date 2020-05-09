@@ -27,6 +27,11 @@ class FileManagerModel
         $this->postId = $postId;
     }
 
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
     public function getFileName()
     {
         return $this->fileName;

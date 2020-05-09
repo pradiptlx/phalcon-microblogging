@@ -7,6 +7,9 @@ namespace Dex\Microblog\Infrastructure\Persistence;
 use Dex\Microblog\Core\Domain\Model\FileManagerId;
 use Dex\Microblog\Core\Domain\Model\FileManagerModel;
 use Dex\Microblog\Core\Domain\Repository\FileManagerRepository;
+use Dex\Microblog\Infrastructure\Persistence\Record\FileManagerRecord;
+use Phalcon\Mvc\Model\Transaction\Failed;
+use Phalcon\Mvc\Model\Transaction\Manager;
 
 class SqlFileRepository extends \Phalcon\Di\Injectable implements FileManagerRepository
 {
@@ -18,9 +21,29 @@ class SqlFileRepository extends \Phalcon\Di\Injectable implements FileManagerRep
 
     public function saveFile(FileManagerModel $fileManagerModel)
     {
-        // TODO: Implement saveFile() method.
+        try {
+            if (!mkdir('files/' . $fileManagerModel->getPath(), 0755, true))
+                throw new Failed('Error create directory');
 
-        return false;
+            $transx = (new Manager())->get();
+            $fileRecord = new FileManagerRecord();
+            $fileRecord->id = $fileManagerModel->getId();
+            $fileRecord->file_name = $fileManagerModel->getFileName();
+            $fileRecord->path = $fileManagerModel->getPath();
+            $fileRecord->post_id = $fileManagerModel->getPostId();
+
+            if ($fileRecord->save()) {
+                $transx->commit();
+                return true;
+            }
+
+            $transx->rollback();
+            throw new Failed((string)$transx->getMessages());
+
+        } catch (Failed $exception) {
+            return new Failed($exception->getMessage());
+        }
+
     }
 
     public function getPost(FileManagerId $fileManagerId)

@@ -15,7 +15,7 @@ class FileManagerRequest
 
     public function __construct(
         string $filename,
-        string $path
+        string $path = ""
     )
     {
         $this->fileManagerId = new FileManagerId();

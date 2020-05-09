@@ -31,6 +31,7 @@ class UserLoginService extends Injectable
 
         $res = $this->verifyPassword($password, $userModel->getPassword());
         if ($res) {
+            $this->session->set('userModel', $userModel);
             $this->session->set('user_id', $userModel->getId()->getId());
             $this->session->set('username', $userModel->getUsername());
             $this->session->set('fullname', $userModel->getFullname());

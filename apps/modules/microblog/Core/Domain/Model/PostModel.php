@@ -36,10 +36,10 @@ class PostModel
         string $title,
         string $content,
         UserModel $user,
-        int $repost_counter,
-        int $share_counter,
-        int $reply_counter,
-        string $created_at
+        int $repost_counter = 0,
+        int $share_counter = 0,
+        int $reply_counter = 0,
+        string $created_at = ""
     )
     {
         $this->id = $id;

@@ -4,15 +4,20 @@
 namespace Dex\Microblog\Presentation\Web\Controller;
 
 
+use Dex\Microblog\Core\Application\Request\CreatePostRequest;
+use Dex\Microblog\Core\Application\Request\FileManagerRequest;
 use Dex\Microblog\Core\Application\Request\ViewPostRequest;
 use Dex\Microblog\Core\Application\Request\ViewReplyByPostRequest;
+use Dex\Microblog\Core\Application\Service\CreatePostService;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
 use Dex\Microblog\Core\Application\Service\ViewPostService;
 use Dex\Microblog\Core\Application\Service\ViewReplyByPostService;
+use Phalcon\Http\Request\File;
 use Phalcon\Mvc\Controller;
 
 class PostController extends Controller
 {
+    private CreatePostService $createPostService;
     private ShowAllPostService $showAllPostService;
     private ViewPostService $viewPostService;
     private ViewReplyByPostService $viewReplyByPostService;
@@ -22,6 +27,7 @@ class PostController extends Controller
         $this->showAllPostService = $this->di->get('showAllService');
         $this->viewPostService = $this->di->get('viewPostService');
         $this->viewReplyByPostService = $this->di->get('viewReplyByPostService');
+        $this->createPostService = $this->di->get('createPostService');
 
         if (!$this->session->has('user_id')) {
             $this->response->redirect('/user/login');
@@ -53,6 +59,43 @@ class PostController extends Controller
         return $this->view->pick('post/home');
     }
 
+    public function createPostAction()
+    {
+        $request = $this->request;
+
+        if ($request->isPost()) {
+            $title = $request->getPost('title', 'string');
+            $content = $request->getPost('content', 'string');
+            $user_id = $this->session->get('user_id');
+
+            $fileRequests = [];
+            if ($request->hasFiles()) {
+                $files = $request->getUploadedFiles() ?: null;
+
+                foreach ($files as $file) {
+                    $fileRequests[] = $this->initializeFileManager($file);
+                }
+            }
+
+            $requestPost = new CreatePostRequest(
+                $title,
+                $content,
+                $fileRequests,
+                $user_id
+            );
+
+            $response = $this->createPostService->execute($requestPost);
+
+            if (!$response->getError()) {
+                $this->flashSession->success($response->getMessage());
+            } else {
+                $this->flashSession->error($response->getMessage());
+            }
+
+            $this->response->redirect('/');
+        }
+    }
+
     public function viewPostAction()
     {
         $this->view->setVar('title', 'View Post');
@@ -78,6 +121,13 @@ class PostController extends Controller
 
         $this->flashSession->error('Post not found');
         return $this->response->redirect('/');
+    }
+
+    private function initializeFileManager(File $file)
+    {
+        return new FileManagerRequest(
+            $file->getName()
+        );
     }
 
 }
