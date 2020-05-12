@@ -11,7 +11,6 @@ use Dex\Microblog\Core\Domain\Model\UserId;
 use Dex\Microblog\Core\Domain\Model\UserModel;
 use Dex\Microblog\Core\Domain\Repository\ReplyPostRepository;
 use Dex\Microblog\Infrastructure\Persistence\Record\ReplyPostRecord;
-use Phalcon\Di\Exception;
 use Phalcon\Mvc\Model\Transaction\Failed;
 use Phalcon\Mvc\Model\Transaction\Manager;
 
@@ -23,11 +22,11 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
         $query = "SELECT r.id as RepId, r.post_id as RepPost, 
                 u.fullname as RepFullname, u.username as RepUsername,
                 p.reply_counter, p.share_counter, p.share_counter, 
-                p.title, p.content, p.created_at
+                p.title, p.content, p.created_at, r.original_post_id
                 FROM Dex\Microblog\Infrastructure\Persistence\Record\ReplyPostRecord r
                 JOIN Dex\Microblog\Infrastructure\Persistence\Record\PostRecord p on r.post_id = p.id
                 JOIN Dex\Microblog\Infrastructure\Persistence\Record\UserRecord u on u.id=p.user_id
-                WHERE r.post_id = :id: ORDER BY p.created_at";
+                WHERE r.original_post_id = :id: ORDER BY p.created_at";
 
         $modelManager = $this->modelsManager->createQuery($query);
 
@@ -45,19 +44,19 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
                     new PostId($reply->post_id),
                     $reply->title,
                     $reply->content,
-                    null,
+                    new UserModel(
+                        new UserId($reply->user_id),
+                        $reply->username,
+                        $reply->fullname,
+                        "",
+                        ""
+                    ),
                     $reply->repost_counter,
                     $reply->share_counter,
                     $reply->reply_counter,
                     $reply->created_at
                 ),
-                new UserModel(
-                    new UserId($reply->user_id),
-                    $reply->username,
-                    $reply->fullname,
-                    null,
-                    null
-                )
+                $reply->original_post_id
             );
 
         }
@@ -71,9 +70,9 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
 
         $replyRecord = new ReplyPostRecord();
 
-        $replyRecord->id = $replyPostModel->getId();
-        $replyRecord->post_id = $replyPostModel->getPost()->getId()->getId();
-
+//        $replyRecord->id = $replyPostModel->getId();
+        $replyRecord->post_id = $replyPostModel->getReply()->getId()->getId();
+        $replyRecord->original_post_id = $replyPostModel->getOriginalPostId();
         if ($replyRecord->save()) {
             $transx->commit();
 
@@ -82,7 +81,7 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
 
         $transx->rollback();
 
-        return new Failed("Failed save reply post");
+        return new Failed("Failed save reply post " . $replyRecord->getMessages()[0]);
     }
 
     public function deleteReply(string $repId)

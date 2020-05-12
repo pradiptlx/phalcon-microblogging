@@ -1,6 +1,7 @@
 <?php
 
 use Dex\Microblog\Core\Application\Service\CreatePostService;
+use Dex\Microblog\Core\Application\Service\CreateReplyService;
 use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
 use Dex\Microblog\Core\Application\Service\DeletePostService;
 use Dex\Microblog\Core\Application\Service\GetAllFilesService;
@@ -92,6 +93,13 @@ $di->set('viewPostService', function () use ($di) {
 $di->set('viewReplyByPostService', function () use ($di) {
     return new ViewReplyByPostService(
         $di->get('sqlReplyPostRepository')
+    );
+});
+
+$di->set('createReplyService', function () use($di){
+    return new CreateReplyService(
+        $di->get('sqlReplyPostRepository'),
+        $di->get('sqlPostRepository')
     );
 });
 

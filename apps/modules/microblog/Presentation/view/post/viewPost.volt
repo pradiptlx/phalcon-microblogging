@@ -91,9 +91,7 @@
                             <div class="modal fade" id="newReply" data-backdrop="static" tabindex="-1"
                                  role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
-                                    {% set postId = post.id %}
-                                    {% set uri = "/post/"~postId~"/replyPost" %}
-                                    <form action="{{ url(uri) }}"
+                                    <form action="{{ url("/post/"~post.id~"/replyPost") }}"
                                           method="post">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -104,6 +102,10 @@
                                                 </button>
                                             </div>
                                             <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="titleInput">Title</label>
+                                                    <input class="form-control" id="titleInput" name="title"/>
+                                                </div>
                                                 <div class="form-group">
                                                     <textarea maxlength="120" name="content" id="replyContent"
                                                               placeholder="What's on your mind?"></textarea>

@@ -8,19 +8,19 @@ class ReplyPostModel
 {
     protected string $id;
 
-    protected PostModel $post;
+    protected PostModel $reply;
 
-    protected UserModel $user;
+    protected ?string $originalPostId;
 
     public function __construct(
         string $id,
-        PostModel $post,
-        UserModel $user
+        PostModel $reply,
+        string $originalPostId = null
     )
     {
         $this->id = $id;
-        $this->post = $post;
-        $this->user = $user;
+        $this->reply = $reply;
+        $this->originalPostId = $originalPostId;
     }
 
     public function getId(): string
@@ -28,14 +28,14 @@ class ReplyPostModel
         return $this->id;
     }
 
-    public function getPost(): PostModel
+    public function getReply(): PostModel
     {
-        return $this->post;
+        return $this->reply;
     }
 
-    public function getUser(): UserModel
+    public function getOriginalPostId(): ?string
     {
-        return $this->user;
+        return $this->originalPostId;
     }
 
 }

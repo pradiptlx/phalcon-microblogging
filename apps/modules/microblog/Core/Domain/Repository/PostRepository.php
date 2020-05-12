@@ -20,11 +20,11 @@ interface PostRepository
 
     public function decCounter(): ?PostModel;
 
-    public function savePost(PostModel $post, int $isReply = 0);
+    public function savePost(PostModel $post, int $isReply = 0, PostModel $originalPost = null);
 
     public function deletePost(PostId $postId);
 
-    public function getTitle(PostId $postId): ?PostModel;
+    public function getTitle(PostId $postId);
 
-    public function getFile(PostId $postId): ?PostModel;
+    public function getFile(PostId $postId);
 }

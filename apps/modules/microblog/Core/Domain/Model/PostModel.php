@@ -26,7 +26,7 @@ class PostModel
     protected int $share_counter;
     protected int $reply_counter;
 
-    protected UserModel $user;
+    protected ?UserModel $user;
 //    protected string $user_id;
 
     protected string $created_at;
@@ -35,7 +35,7 @@ class PostModel
         PostId $id,
         string $title,
         string $content,
-        UserModel $user,
+        UserModel $user = null,
         int $repost_counter = 0,
         int $share_counter = 0,
         int $reply_counter = 0,
@@ -105,10 +105,10 @@ class PostModel
         return $this->repost_counter--;
     }
 
-    public function incReplyCounter()
+    public function incReplyCounter(): int
     {
-
-        return $this->reply_counter++;
+        $this->reply_counter++;
+        return $this->reply_counter;
     }
 
     public function decReplyCounter()

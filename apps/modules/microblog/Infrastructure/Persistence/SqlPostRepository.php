@@ -119,7 +119,8 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
                     u.email, u.password
                     FROM Dex\Microblog\Infrastructure\Persistence\Record\PostRecord p
                     JOIN Dex\Microblog\Infrastructure\Persistence\Record\UserRecord u 
-                    on p.user_id = u.id'
+                    on p.user_id = u.id
+                    WHERE p.isReply=0'
         );
 
         $postsRecord = $query->execute();
@@ -148,7 +149,7 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
 
     }
 
-    public function savePost(PostModel $post, int $isReply = 0)
+    public function savePost(PostModel $post, int $isReply = 0, PostModel $originalPost = null)
     {
         $transx = (new Manager())->get();
         $postRecord = new PostRecord();
@@ -162,10 +163,12 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
         $postRecord->isReply = $isReply;
         $postRecord->share_counter = $post->getShareCounter();
         $postRecord->repost_counter = $post->getRepostCounter();
-        if ($isReply) {
-            $postRecord->reply_counter = $post->incReplyCounter();
-        } else {
-            $postRecord->reply_counter = $post->getReplyCounter();
+        $postRecord->reply_counter = $post->getReplyCounter();
+        if ($isReply === 1 && isset($originalPost)) {
+            $response = $this->updateOriginalPost($originalPost);
+
+            if($response instanceof Failed)
+                return new Failed($response->getMessage());
         }
 
         if ($postRecord->save()) {
@@ -177,6 +180,38 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
         $transx->rollback();
 
         return new Failed("Failed create post");
+    }
+
+    private function updateOriginalPost(PostModel $originalPost)
+    {
+        $postModel = $this->byId($originalPost->getId());
+
+        if (isset($postModel)) {
+            $transx = (new Manager())->get();
+            $postRecord = new PostRecord();
+            $postRecord->id = $originalPost->getId()->getId();
+            $postRecord->title = $originalPost->getTitle();
+            $postRecord->content = $originalPost->getContent();
+            $postRecord->user_id = $originalPost->getUser()->getId()->getId();
+            $postRecord->repost_counter = $originalPost->getRepostCounter();
+            $postRecord->share_counter = $originalPost->getShareCounter();
+            $postRecord->reply_counter = $originalPost->incReplyCounter();
+            $postRecord->created_at = $originalPost->getCreatedDate();
+            $postRecord->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
+            $postRecord->isReply = 0;
+
+            if ($postRecord->update()) {
+
+                $transx->commit();
+
+                return true;
+            }
+            $transx->rollback();
+
+            return new Failed("Can't update original post " . $postRecord->getMessages());
+        }
+
+        return false;
     }
 
     public function deletePost(PostId $postId)

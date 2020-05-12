@@ -5,11 +5,13 @@ namespace Dex\Microblog\Presentation\Web\Controller;
 
 
 use Dex\Microblog\Core\Application\Request\CreatePostRequest;
+use Dex\Microblog\Core\Application\Request\CreateReplyRequest;
 use Dex\Microblog\Core\Application\Request\DeletePostRequest;
 use Dex\Microblog\Core\Application\Request\FileManagerRequest;
 use Dex\Microblog\Core\Application\Request\ViewPostRequest;
 use Dex\Microblog\Core\Application\Request\ViewReplyByPostRequest;
 use Dex\Microblog\Core\Application\Service\CreatePostService;
+use Dex\Microblog\Core\Application\Service\CreateReplyService;
 use Dex\Microblog\Core\Application\Service\DeletePostService;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
 use Dex\Microblog\Core\Application\Service\ViewPostService;
@@ -24,6 +26,7 @@ class PostController extends Controller
     private ViewPostService $viewPostService;
     private ViewReplyByPostService $viewReplyByPostService;
     private DeletePostService $deletePostService;
+    private CreateReplyService $createReplyService;
 
     public function initialize()
     {
@@ -32,6 +35,8 @@ class PostController extends Controller
         $this->viewReplyByPostService = $this->di->get('viewReplyByPostService');
         $this->createPostService = $this->di->get('createPostService');
         $this->deletePostService = $this->di->get('deletePostService');
+        $this->createReplyService = $this->di->get('createReplyService');
+
 
         if (!$this->session->has('user_id')) {
             $this->response->redirect('/user/login');
@@ -104,6 +109,7 @@ class PostController extends Controller
     {
         $this->view->setVar('title', 'View Post');
         $request = $this->request;
+        $this->session->set('last_url', $this->router->getControllerName() . '/' . $this->router->getActionName() . '/' . $this->router->getParams()[0]);
 
         $idPost = $this->router->getParams()[0];
 
@@ -142,6 +148,34 @@ class PostController extends Controller
                 $this->flashSession->error($responseDelete->getMessage());
             } else
                 $this->flashSession->success($responseDelete->getMessage());
+        }
+
+        if ($this->session->has('last_url')) {
+            $lastUrl = $this->session->get('last_url');
+            if ($lastUrl == 'user/dashboard')
+                return $this->response->redirect($lastUrl);
+        }
+        return $this->response->redirect('/');
+    }
+
+    public function replyPostAction()
+    {
+        $request = $this->request;
+        $title = $request->getPost('title', 'string');
+        $content = $request->getPost('content', 'string');
+        $postId = $this->router->getParams()[0];
+        $originalPostRequest = new ViewPostRequest($postId);
+        $originalPostResponse = $this->viewPostService->execute($originalPostRequest);
+
+        if ($request->isPost()) {
+            $replyRequest = new CreateReplyRequest($title, $content, $originalPostResponse->getData());
+
+            $replyResponse = $this->createReplyService->execute($replyRequest);
+
+            if ($replyResponse->getError()) {
+                $this->flashSession->error($replyResponse->getCode() . ' ' . $replyResponse->getMessage());
+            } else
+                $this->flashSession->success($replyResponse->getMessage());
         }
 
         if ($this->session->has('last_url')) {
