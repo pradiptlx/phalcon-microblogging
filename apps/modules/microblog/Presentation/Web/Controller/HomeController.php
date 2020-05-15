@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dex\microblog\Presentation\Web\Controller;
+namespace Dex\Microblog\Presentation\Web\Controller;
 
 
 use Dex\microblog\Core\Application\Request\CreatePostRequest;
