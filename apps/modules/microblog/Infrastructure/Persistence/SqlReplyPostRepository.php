@@ -21,19 +21,19 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
     {
         $query = "SELECT r.id as RepId, r.post_id as RepPost, 
                 u.fullname as RepFullname, u.username as RepUsername,
-                p.reply_counter, p.share_counter, p.share_counter, 
-                p.title, p.content, p.created_at, r.original_post_id
+                p.reply_counter, p.repost_counter, p.share_counter, 
+                p.title, p.content, p.created_at, r.original_post_id, p.user_id
                 FROM Dex\Microblog\Infrastructure\Persistence\Record\ReplyPostRecord r
                 JOIN Dex\Microblog\Infrastructure\Persistence\Record\PostRecord p on r.post_id = p.id
-                JOIN Dex\Microblog\Infrastructure\Persistence\Record\UserRecord u on u.id=p.user_id
+                JOIN Dex\Microblog\Infrastructure\Persistence\Record\UserRecord u on u.id = p.user_id
                 WHERE r.original_post_id = :id: ORDER BY p.created_at";
-
         $modelManager = $this->modelsManager->createQuery($query);
-
         $repliesTmp = $modelManager->execute([
             'id' => $postId->getId()
         ]);
 
+        if(!isset($repliesTmp))
+            return [];
 
         $replies = [];
 
@@ -46,8 +46,8 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
                     $reply->content,
                     new UserModel(
                         new UserId($reply->user_id),
-                        $reply->username,
-                        $reply->fullname,
+                        $reply->RepUsername,
+                        $reply->RepFullname,
                         "",
                         ""
                     ),

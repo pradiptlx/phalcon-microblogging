@@ -22,8 +22,10 @@ class SqlUserRepository implements UserRepository
         $this->di = $di;
     }
 
-    private function parsingRecord(UserRecord $record)
+    private function parsingRecord(UserRecord $record = null)
     {
+        if(is_null($record))
+            return null;
         return new UserModel(
             new UserId($record->id),
             $record->username,

@@ -13,19 +13,22 @@ class ViewReplyByPostResponse extends GenericResponse
         parent::__construct($this->parsingModel($data), $message, $code, $error);
     }
 
-    private function parsingModel(array $model)
+    private function parsingModel(array $model = [])
     {
+        if(!isset($model))
+            return [];
+
         $replies = [];
         /**
          * @var ReplyPostModel $reply
          */
         foreach ($model as $reply) {
             $replies[] = (object)[
-                'repTitle' => $reply->getPost()->getTitle(),
-                'repContent' => $reply->getPost()->getContent(),
-                'repUsername' => $reply->getUser()->getUsername(),
-                'repFullname' => $reply->getUser()->getFullname(),
-                'repCreatedDate' => $reply->getPost()->getCreatedDate()
+                'repTitle' => $reply->getReply()->getTitle(),
+                'repContent' => $reply->getReply()->getContent(),
+                'repUsername' => $reply->getReply()->getUser()->getUsername(),
+                'repFullname' => $reply->getReply()->getUser()->getFullname(),
+                'repCreatedDate' => $reply->getReply()->getCreatedDate()
             ];
         }
 

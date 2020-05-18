@@ -28,6 +28,8 @@ class UserLoginService extends Injectable
 
         if ($userModel instanceof InvalidUsernameDomainException)
             return new UserLoginResponse($userModel, $userModel->getMessage(), 500, true);
+        elseif (is_null($userModel))
+            return new UserLoginResponse(null, "User Not Found", 200, true);
 
         $res = $this->verifyPassword($password, $userModel->getPassword());
         if ($res) {

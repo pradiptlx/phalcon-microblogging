@@ -29,6 +29,9 @@ class ViewReplyByPostService
 
         $replies = $this->replyPostRepository->byPostId($postId);
 
+        if(is_null($replies))
+            return new ViewReplyByPostResponse(null, "Not Found", 500, true);
+
         return new ViewReplyByPostResponse($replies, "Not error", 200, false);
     }
 
