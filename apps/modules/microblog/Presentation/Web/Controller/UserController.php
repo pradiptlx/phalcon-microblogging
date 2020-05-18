@@ -3,9 +3,11 @@
 
 namespace Dex\Microblog\Presentation\Web\Controller;
 
+use Dex\Microblog\Core\Application\Request\ChangeProfileRequest;
 use Dex\Microblog\Core\Application\Request\CreateUserAccountRequest;
 use Dex\Microblog\Core\Application\Request\ShowDashboardRequest;
 use Dex\Microblog\Core\Application\Request\UserLoginRequest;
+use Dex\Microblog\Core\Application\Service\ChangeProfileService;
 use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
 use Dex\Microblog\Core\Application\Service\ShowDashboardService;
 use Dex\Microblog\Core\Application\Service\UserLoginService;
@@ -16,13 +18,15 @@ class UserController extends Controller
 {
     private CreateUserAccountService $createUserAccountService;
     private UserLoginService $userLoginService;
-    private ShowDashboardService $showDasboardService;
+    private ShowDashboardService $showDashboardService;
+    private ChangeProfileService $changeProfileService;
 
     public function initialize()
     {
         $this->createUserAccountService = $this->di->get('createUserAccountService');
         $this->userLoginService = $this->di->get('userLoginService');
-        $this->showDasboardService = $this->di->get('showDashboardService');
+        $this->showDashboardService = $this->di->get('showDashboardService');
+        $this->changeProfileService = $this->di->get('changeProfileService');
 
         if (is_null($this->router->getActionName())) {
             $this->response->redirect('user/login');
@@ -62,7 +66,7 @@ class UserController extends Controller
             new UserId($user_id)
         );
 
-        $response = $this->showDasboardService->execute($request);
+        $response = $this->showDashboardService->execute($request);
         if ($response->getError()) {
             $this->flashSession->error($response->getCode() . ' ' . $response->getMessage());
             return $this->response->redirect('/');
@@ -78,6 +82,36 @@ class UserController extends Controller
             $this->view->pick('user/dashboard');
         }
 
+    }
+
+    public function accountSettingsAction()
+    {
+        $request = $this->request;
+
+        if($request->isPost()){
+            $username = $request->getPost('username', 'string');
+            $fullname = $request->getPost('fullname', 'string');
+            $email = $request->getPost('email', 'email');
+            $oldPass = $request->getPost('oldPassword', 'string');
+            $newPass = $request->getPost('newPassword', 'string');
+
+            $req = new ChangeProfileRequest(
+                $this->session->get('user_id'),
+                $username,
+                $fullname,
+                $email,
+                $oldPass,
+                $newPass
+            );
+
+            $res = $this->changeProfileService->execute($req);
+
+            $res->getError()?$this->flashSession->error($res->getMessage())
+                : $this->flashSession->success($res->getMessage());
+
+        }
+
+        return $this->response->redirect('user/dashboard');
     }
 
     public function registerAction()
@@ -102,7 +136,7 @@ class UserController extends Controller
             } else {
                 $this->flashSession->success($response->getMessage());
             }
-            
+
             return $this->response->redirect('/');
         }
     }

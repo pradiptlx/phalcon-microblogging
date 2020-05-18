@@ -14,5 +14,7 @@ interface UserRepository
 
     public function saveUser(UserModel $user);
 
+    public function changeProfile(array $data, UserId $userId);
+
     public function getPassword(UserId $userId);
 }
