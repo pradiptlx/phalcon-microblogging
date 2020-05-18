@@ -198,7 +198,7 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
             $postRecord->reply_counter = $originalPost->incReplyCounter();
             $postRecord->created_at = $originalPost->getCreatedDate();
             $postRecord->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
-            $postRecord->isReply = 0;
+//            $postRecord->isReply = 0;
 
             if ($postRecord->update()) {
 

@@ -27,25 +27,33 @@ class ViewReplyByPostService
     public function execute(ViewReplyByPostRequest $request): ViewReplyByPostResponse
     {
         $postId = $request->postId;
+        $repliesAllMerged = [];
 
+        /**
+         * @var array $replies
+         */
         $replies = $this->replyPostRepository->byPostId($postId);
 
-        if(is_null($replies))
+        if (is_null($replies))
             return new ViewReplyByPostResponse(null, "Not Found", 500, true);
 
         /**
          * @var ReplyPostModel $reply
          */
         foreach ($replies as $reply) {
-            if($reply->getReply()->isReply() === 1){
+            if ($reply->getReply()->isReply() === 1) {
                 $repRep = $this->replyPostRepository->byPostId($reply->getReply()->getId());
-
-                $repliesAllMerged = array_merge_recursive($replies, $repRep);
+                if (!empty($repRep))
+                    foreach ($repRep as $re){
+                        $repliesAllMerged[] = $re;
+                    }
             }
+//            $replies[] = $repliesAllMerged;
         }
 
-        if(isset($repliesAllMerged))
-            return new ViewReplyByPostResponse($repliesAllMerged, "Not error", 200, false);
+        if (isset($repliesAllMerged)) {
+            $replies = array_merge($repliesAllMerged, $replies);
+        }
 
         return new ViewReplyByPostResponse($replies, "Not error", 200, false);
     }

@@ -9,7 +9,7 @@
 {% block content %}
     {{ flashSession.output() }}
     {% if post.file is defined %}
-        <header class="masthead" style="background-image: url({{ static_url(post.file.path) }})">
+        <header class="masthead" style="background-image: url({{ static_url(post.file.path) }})" id="{{ post.id }}">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row">
@@ -60,7 +60,7 @@
             </div>
         </header>
     {% else %}
-        <header class="masthead">
+        <header class="masthead" id="{{ post.id }}">
             <div class="overlay"></div>
             <div class="container">
                 <div class="row">
@@ -254,7 +254,10 @@
                     $(this).fadeIn('slow', function(){
                         blink(this);
                     });
-                })
+                });
+                $('html, body').animate({
+                    scrollTop: $("#" + id).offset().top
+                }, 'slow');
             }
 
             $('.replyScroll').click(function () {
