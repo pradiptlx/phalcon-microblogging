@@ -88,7 +88,7 @@ class UserController extends Controller
     {
         $request = $this->request;
 
-        if($request->isPost()){
+        if ($request->isPost()) {
             $username = $request->getPost('username', 'string');
             $fullname = $request->getPost('fullname', 'string');
             $email = $request->getPost('email', 'email');
@@ -106,7 +106,34 @@ class UserController extends Controller
 
             $res = $this->changeProfileService->execute($req);
 
-            $res->getError()?$this->flashSession->error($res->getMessage())
+            $res->getError() ? $this->flashSession->error($res->getMessage())
+                : $this->flashSession->success($res->getMessage());
+
+        }
+
+        return $this->response->redirect('user/dashboard');
+    }
+
+    public function resetPasswordAction()
+    {
+        $request = $this->request;
+
+        if ($request->isPost()) {
+            $oldPass = $request->getPost('oldPassword', 'string');
+            $newPass = $request->getPost('newPassword', 'string');
+
+            $req = new ChangeProfileRequest(
+                $this->session->get('user_id'),
+                null,
+                null,
+                null,
+                $oldPass,
+                $newPass
+            );
+
+            $res = $this->changeProfileService->execute($req);
+
+            $res->getError() ? $this->flashSession->error($res->getMessage())
                 : $this->flashSession->success($res->getMessage());
 
         }
