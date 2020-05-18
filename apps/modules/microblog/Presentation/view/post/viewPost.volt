@@ -7,62 +7,110 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-{{ flashSession.output() }}
+    {{ flashSession.output() }}
     {% if post.file is defined %}
-<header class="masthead" style="background-image: url({{ static_url(post.file.path) }})">
-    {% else %}
-    <header class="masthead">
-        {% endif %}
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    {% if username === post.username %}
-                        <button type="button"
-                                data-toggle="modal" data-target="#deletePost"
-                                class="btn btn-danger float-right">
-                            Delete Post
-                        </button>
-                    {% endif %}
-                    <div class="post-heading">
-                        <h1>{{ post.title }}</h1>
-                        {#                        <h2 class="subheading">Problems look mighty small from 150 miles up</h2>#}
-                        <span class="meta">Posted by
+        <header class="masthead" style="background-image: url({{ static_url(post.file.path) }})">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        {% if username === post.username %}
+                            <button type="button"
+                                    data-toggle="modal" data-target="#deletePost"
+                                    class="btn btn-danger float-right">
+                                Delete Post
+                            </button>
+                        {% endif %}
+                        <div class="post-heading">
+                            <h1>{{ post.title }}</h1>
+                            {#                        <h2 class="subheading">Problems look mighty small from 150 miles up</h2>#}
+                            <span class="meta">Posted by
               <a href="{{ url('user/findUser/'~post.username) }}">{{ post.fullname }}</a>
               on {{ post.created_at }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Modal -->
-        <div class="modal fade" id="deletePost" data-backdrop="static" tabindex="-1"
-             role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <form action="{{ url('/post/'~post.id~'/deletePost') }}" method="post">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Are you sure</h5>
-                            <button type="button" class="close" data-dismiss="modal"
-                                    aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="deletePost" data-backdrop="static" tabindex="-1"
+                 role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <form action="{{ url('/post/'~post.id~'/deletePost') }}" method="post">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Are you sure</h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="postId" value="{{ post.id }}">
+                                This action is irreversible.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-danger">Sure</button>
+                            </div>
                         </div>
-                        <div class="modal-body">
-                            <input type="hidden" name="postId" value="{{ post.id }}">
-                            This action is irreversible.
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                Close
+                    </form>
+                </div>
+            </div>
+        </header>
+    {% else %}
+        <header class="masthead">
+            <div class="overlay"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-10 mx-auto">
+                        {% if username === post.username %}
+                            <button type="button"
+                                    data-toggle="modal" data-target="#deletePost"
+                                    class="btn btn-danger float-right">
+                                Delete Post
                             </button>
-                            <button type="submit" class="btn btn-danger">Sure</button>
+                        {% endif %}
+                        <div class="post-heading">
+                            <h1>{{ post.title }}</h1>
+                            {#                        <h2 class="subheading">Problems look mighty small from 150 miles up</h2>#}
+                            <span class="meta">Posted by
+              <a href="{{ url('user/findUser/'~post.username) }}">{{ post.fullname }}</a>
+              on {{ post.created_at }}</span>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </header>
-
+            <!-- Modal -->
+            <div class="modal fade" id="deletePost" data-backdrop="static" tabindex="-1"
+                 role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <form action="{{ url('/post/'~post.id~'/deletePost') }}" method="post">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Are you sure</h5>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="postId" value="{{ post.id }}">
+                                This action is irreversible.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                    Close
+                                </button>
+                                <button type="submit" class="btn btn-danger">Sure</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </header>
+    {% endif %}
 
     <article>
         <div class="container">
@@ -126,10 +174,10 @@
                         <div class="card-body">
                             {% if replies is defined %}
                                 {% for reply in replies %}
-                                    <div class="card my-3">
-                                        <div class="card-header">
+                                    <div class="card my-3 reply" id="{{ reply.postId|upper }}">
+                                        <a class="card-header" href="#">
                                             {{ reply.repTitle }}
-                                        </div>
+                                        </a>
                                         <div class="card-body">
                                             {{ reply.repContent }}
                                         </div>
@@ -147,7 +195,8 @@
                                                           method="post">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="staticBackdropLabel">New Reply</h5>
+                                                                <h5 class="modal-title" id="staticBackdropLabel">New
+                                                                    Reply</h5>
                                                                 <button type="button" class="close" data-dismiss="modal"
                                                                         aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
@@ -156,7 +205,8 @@
                                                             <div class="modal-body">
                                                                 <div class="form-group">
                                                                     <label for="titleInput">Title</label>
-                                                                    <input class="form-control" id="titleInput" name="title"/>
+                                                                    <input class="form-control" id="titleInput"
+                                                                           name="title"/>
                                                                 </div>
                                                                 <div class="form-group">
                                                     <textarea maxlength="120" name="content" id="replyContent"
@@ -165,10 +215,12 @@
 
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">
                                                                     Close
                                                                 </button>
-                                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                                <button type="submit" class="btn btn-primary">Submit
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </form>
@@ -188,5 +240,14 @@
         </div>
     </article>
 
+{% endblock %}
 
-    {% endblock %}
+{% block js %}
+
+    <script>
+        $('.reply').onfocus(function () {
+            alert('asd');
+        });
+    </script>
+
+{% endblock %}

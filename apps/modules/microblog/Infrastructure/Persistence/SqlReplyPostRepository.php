@@ -22,7 +22,7 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
         $query = "SELECT r.id as RepId, r.post_id, 
                 u.fullname as RepFullname, u.username as RepUsername,
                 p.reply_counter, p.repost_counter, p.share_counter, 
-                p.title, p.content, p.created_at, r.original_post_id, p.user_id
+                p.title, p.content, p.created_at, r.original_post_id, p.user_id, p.isReply
                 FROM Dex\Microblog\Infrastructure\Persistence\Record\ReplyPostRecord r
                 JOIN Dex\Microblog\Infrastructure\Persistence\Record\PostRecord p on r.post_id = p.id
                 JOIN Dex\Microblog\Infrastructure\Persistence\Record\UserRecord u on u.id = p.user_id
@@ -54,7 +54,8 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
                     $reply->repost_counter,
                     $reply->share_counter,
                     $reply->reply_counter,
-                    $reply->created_at
+                    $reply->created_at,
+                    $reply->isReply
                 ),
                 $reply->original_post_id
             );

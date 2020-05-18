@@ -30,7 +30,8 @@ class ViewReplyByPostResponse extends GenericResponse
                 'repContent' => $reply->getReply()->getContent(),
                 'repUsername' => $reply->getReply()->getUser()->getUsername(),
                 'repFullname' => $reply->getReply()->getUser()->getFullname(),
-                'repCreatedDate' => $reply->getReply()->getCreatedDate()
+                'repCreatedDate' => $reply->getReply()->getCreatedDate(),
+                'originalPostId' => $reply->getOriginalPostId()
             ];
         }
 

@@ -6,6 +6,7 @@ namespace Dex\Microblog\Core\Application\Service;
 
 use Dex\Microblog\Core\Application\Request\ViewReplyByPostRequest;
 use Dex\Microblog\Core\Application\Response\ViewReplyByPostResponse;
+use Dex\Microblog\Core\Domain\Model\ReplyPostModel;
 use Dex\Microblog\Core\Domain\Repository\ReplyPostRepository;
 
 /**
@@ -31,6 +32,20 @@ class ViewReplyByPostService
 
         if(is_null($replies))
             return new ViewReplyByPostResponse(null, "Not Found", 500, true);
+
+        /**
+         * @var ReplyPostModel $reply
+         */
+        foreach ($replies as $reply) {
+            if($reply->getReply()->isReply() === 1){
+                $repRep = $this->replyPostRepository->byPostId($reply->getReply()->getId());
+
+                $repliesAllMerged = array_merge_recursive($replies, $repRep);
+            }
+        }
+
+        if(isset($repliesAllMerged))
+            return new ViewReplyByPostResponse($repliesAllMerged, "Not error", 200, false);
 
         return new ViewReplyByPostResponse($replies, "Not error", 200, false);
     }
