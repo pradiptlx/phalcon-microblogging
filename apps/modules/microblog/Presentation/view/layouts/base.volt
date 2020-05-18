@@ -75,7 +75,7 @@
     });
 
     $('.search-ajax').select2({
-        ajax: { 
+        ajax: {
             url: '{{ this.url.getBaseUri() }}user/findUser',
             dataType: 'json',
             data: function (params) {

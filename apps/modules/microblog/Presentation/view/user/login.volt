@@ -51,7 +51,7 @@
                     </div>
                 </form>
 
-                <div class="login100-more" style="background-image: url('/img/georgiana-sparks-1KkjeJgtOxE-unsplash.jpg');"></div>
+                <div class="login100-more" style="background-image: url('{{ url('/img/georgiana-sparks-1KkjeJgtOxE-unsplash.jpg') }}');"></div>
             </div>
         </div>
     </div>
@@ -59,7 +59,6 @@
 {% endblock %}
 
 {% block js %}
-    <script src="{{ static_url('/vendor/select2/select2.min.js') }}"></script>
     <script>
         $(".selection-2").select2({
             minimumResultsForSearch: 20,
@@ -67,7 +66,6 @@
         });
     </script>
     <script src="{{ static_url('/vendor/animsition/js/animsition.min.js') }}"></script>
-    <script src="{{ static_url('/vendor/select2/select2.min.js') }}"></script>
     <!--===============================================================================================-->
     <script src="{{ static_url('/vendor/daterangepicker/moment.min.js') }}"></script>
     <script src="{{ static_url('/vendor/daterangepicker/daterangepicker.js') }}"></script>
