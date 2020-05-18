@@ -175,9 +175,9 @@
                             {% if replies is defined %}
                                 {% for reply in replies %}
                                     <div class="card my-3 reply" id="{{ reply.postId|upper }}">
-                                        <a class="card-header" href="#">
+                                        <div class="card-header replyScroll" id="{{ reply.originalPostId }}">
                                             {{ reply.repTitle }}
-                                        </a>
+                                        </div>
                                         <div class="card-body">
                                             {{ reply.repContent }}
                                         </div>
@@ -245,8 +245,23 @@
 {% block js %}
 
     <script>
-        $('.reply').onfocus(function () {
-            alert('asd');
+        $(document).ready(()=>{
+            function blink(id) {
+                // Remove "link" from the ID
+                // id = id.replace("link", "");
+                // Scroll
+                $('#'+id).fadeOut('slow', function(){
+                    $(this).fadeIn('slow', function(){
+                        blink(this);
+                    });
+                })
+            }
+
+            $('.replyScroll').click(function () {
+                let origId = $(this).attr('id');
+                blink(origId);
+                console.log(origId);
+            });
         });
     </script>
 
