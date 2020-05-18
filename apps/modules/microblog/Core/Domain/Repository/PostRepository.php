@@ -16,15 +16,8 @@ interface PostRepository
 
     public function getAll();
 
-    public function incCounter(): ?PostModel;
-
-    public function decCounter(): ?PostModel;
-
     public function savePost(PostModel $post, int $isReply = 0, PostModel $originalPost = null);
 
     public function deletePost(PostId $postId);
 
-    public function getTitle(PostId $postId);
-
-    public function getFile(PostId $postId);
 }

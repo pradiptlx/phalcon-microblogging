@@ -122,7 +122,7 @@ class PostController extends Controller
 
             if (!$responsePost->getError() && !$responseReply->getError()) {
                 $this->view->setVar('post', $responsePost->getData());
-                $this->view->setVar('reply', $responseReply->getData());
+                $this->view->setVar('replies', $responseReply->getData());
                 $this->view->setVar('title', $responsePost->getData()->title);
 
                 return $this->view->pick('post/viewPost');

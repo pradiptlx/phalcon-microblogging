@@ -1,5 +1,6 @@
 <?php
 
+use Dex\Microblog\Core\Application\Service\ChangeProfileService;
 use Dex\Microblog\Core\Application\Service\CreatePostService;
 use Dex\Microblog\Core\Application\Service\CreateReplyService;
 use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
@@ -106,6 +107,11 @@ $di->set('createReplyService', function () use($di){
 
 $di->set('searchUserService', function () use($di){
     return new SearchUserService(
+        $di->get('sqlUserRepository')
+    );
+});
+$di->set('changeProfileService', function () use($di){
+    return new ChangeProfileService(
         $di->get('sqlUserRepository')
     );
 });

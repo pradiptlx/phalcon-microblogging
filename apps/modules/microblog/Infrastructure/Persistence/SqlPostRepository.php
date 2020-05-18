@@ -63,8 +63,8 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
                     $postRecord->password,
                 ),
                 $postRecord->repost_counter,
-                $postRecord->reply_counter,
                 $postRecord->share_counter,
+                $postRecord->reply_counter,
                 $postRecord->created_at
             );
         }
@@ -198,7 +198,7 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
             $postRecord->reply_counter = $originalPost->incReplyCounter();
             $postRecord->created_at = $originalPost->getCreatedDate();
             $postRecord->updated_at = (new \DateTime())->format('Y-m-d H:i:s');
-            $postRecord->isReply = 0;
+//            $postRecord->isReply = 0;
 
             if ($postRecord->update()) {
 
@@ -232,23 +232,4 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
         return new Failed("Failed Delete Post " . $title);
     }
 
-    public function getTitle(PostId $postId): ?PostModel
-    {
-        // TODO: Implement getTitle() method.
-    }
-
-    public function getFile(PostId $postId): ?PostModel
-    {
-        // TODO: Implement getFile() method.
-    }
-
-    public function incCounter(): ?PostModel
-    {
-        // TODO: Implement incCounter() method.
-    }
-
-    public function decCounter(): ?PostModel
-    {
-        // TODO: Implement decCounter() method.
-    }
 }

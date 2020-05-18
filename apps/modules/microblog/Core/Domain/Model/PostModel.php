@@ -28,6 +28,7 @@ class PostModel
 
     protected ?UserModel $user;
 //    protected string $user_id;
+    protected ?int $isReply;
 
     protected string $created_at;
 
@@ -39,7 +40,8 @@ class PostModel
         int $repost_counter = 0,
         int $share_counter = 0,
         int $reply_counter = 0,
-        string $created_at = ""
+        string $created_at = "",
+        int $isReply = 0
     )
     {
         $this->id = $id;
@@ -50,6 +52,7 @@ class PostModel
         $this->share_counter = $share_counter;
         $this->user = $user;
         $this->created_at = $created_at;
+        $this->isReply = $isReply;
     }
 
     public function getId(): PostId
@@ -90,6 +93,11 @@ class PostModel
     public function getShareCounter(): int
     {
         return $this->share_counter;
+    }
+
+    public function isReply(): int
+    {
+        return $this->isReply;
     }
 
     public function incRepostCounter()
