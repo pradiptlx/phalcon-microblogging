@@ -4,9 +4,11 @@
 namespace Dex\Microblog\Presentation\Web\Controller;
 
 use Dex\Microblog\Core\Application\Request\CreateUserAccountRequest;
+use Dex\Microblog\Core\Application\Request\SearchUserRequest;
 use Dex\Microblog\Core\Application\Request\ShowDashboardRequest;
 use Dex\Microblog\Core\Application\Request\UserLoginRequest;
 use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
+use Dex\Microblog\Core\Application\Service\SearchUserService;
 use Dex\Microblog\Core\Application\Service\ShowDashboardService;
 use Dex\Microblog\Core\Application\Service\UserLoginService;
 use Dex\Microblog\Core\Domain\Model\UserId;
@@ -17,12 +19,14 @@ class UserController extends Controller
     private CreateUserAccountService $createUserAccountService;
     private UserLoginService $userLoginService;
     private ShowDashboardService $showDasboardService;
+    private SearchUserService $searchUserService;
 
     public function initialize()
     {
         $this->createUserAccountService = $this->di->get('createUserAccountService');
         $this->userLoginService = $this->di->get('userLoginService');
         $this->showDasboardService = $this->di->get('showDashboardService');
+        $this->searchUserService = $this->di->get('searchUserService');
 
         if (is_null($this->router->getActionName())) {
             $this->response->redirect('user/login');
@@ -159,6 +163,22 @@ class UserController extends Controller
 
         $this->flashSession->success("Successfully logout");
         return $this->response->redirect('user/login');
+    }
+
+    public function findUserAction() 
+    {
+        $keyword = $this->request->get('q');
+        $request = new SearchUserRequest($keyword);
+        $response = $this->searchUserService->execute($request);
+        if ($response->getData()) {
+            $response_data = $response->getData();
+            $json_response = array(
+                'id' => $response_data->getId()->getId(),
+                'username' => $response_data->getUsername()
+            );
+        }
+
+        return $this->response->setJsonContent($json_response);
     }
 
 }

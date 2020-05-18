@@ -29,6 +29,10 @@
                 </div>
             </li>
         </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <select class="search-ajax" style="width: 30vh">
+            </select>
+        </form>
     </div>
 </nav>
 

@@ -5,6 +5,7 @@ use Dex\Microblog\Core\Application\Service\CreateReplyService;
 use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
 use Dex\Microblog\Core\Application\Service\DeletePostService;
 use Dex\Microblog\Core\Application\Service\GetAllFilesService;
+use Dex\Microblog\Core\Application\Service\SearchUserService;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
 use Dex\Microblog\Core\Application\Service\ShowDashboardService;
 use Dex\Microblog\Core\Application\Service\UserLoginService;
@@ -100,6 +101,12 @@ $di->set('createReplyService', function () use($di){
     return new CreateReplyService(
         $di->get('sqlReplyPostRepository'),
         $di->get('sqlPostRepository')
+    );
+});
+
+$di->set('searchUserService', function () use($di){
+    return new SearchUserService(
+        $di->get('sqlUserRepository')
     );
 });
 

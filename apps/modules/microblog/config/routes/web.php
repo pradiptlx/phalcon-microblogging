@@ -72,13 +72,13 @@ $userRouter = new Router\Group([
     'controller' => 'user'
 ]);
 $userRouter->setPrefix('/user');
-$userRouter->add(
-    '/findUser/:params',
-    [
-        'action' => 'findUser',
-        'params' => 1
-    ]
-)->setName('find-user');
+// $userRouter->add(
+//     '/findUser/:params',
+//     [
+//         'action' => 'findUser',
+//         'params' => 1
+//     ]
+// )->setName('find-user');
 $userRouter->add(
     '/:action',
     [

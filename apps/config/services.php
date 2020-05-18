@@ -54,14 +54,14 @@ $container['dispatcher'] = function () use ($modules) {
         }
     );
 
-    $eventsManager->attach(
-      'dispatch:beforeForward',
-      function (Event $event, Dispatcher $dispatcher, array $forward) use ($modules) {
-          $namespace = $modules[$forward['module']]['webControllerNamespace'];
-          $dispatcher->setModuleName($forward['module']);
-          $dispatcher->setNamespaceName($namespace);
-      }
-    );
+    // $eventsManager->attach(
+    //   'dispatch:beforeForward',
+    //   function (Event $event, Dispatcher $dispatcher, array $forward) use ($modules) {
+    //       $namespace = $modules[$forward['module']]['webControllerNamespace'];
+    //       $dispatcher->setModuleName($forward['module']);
+    //       $dispatcher->setNamespaceName($namespace);
+    //   }
+    // );
 
     $dispatcher = new Dispatcher();
 //    $dispatcher->setDefaultNamespace(

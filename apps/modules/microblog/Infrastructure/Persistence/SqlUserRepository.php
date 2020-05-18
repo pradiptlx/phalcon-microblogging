@@ -89,6 +89,22 @@ class SqlUserRepository implements UserRepository
 
         return null;
     }
+    
+    public function searchUsername(string $keyword): ?UserModel
+    {
+        $userRecords = UserRecord::findFirst([
+            'conditions' => 'username LIKE :username:',
+            'bind' => [
+                'username' => '%'.$keyword.'%'
+            ]
+        ]);
+
+        if (!$userRecords) {
+            return null;
+        }
+
+        return $this->parsingRecord($userRecords);
+    }
 
 
 }
