@@ -19,7 +19,7 @@ class SqlReplyPostRepository extends \Phalcon\Di\Injectable implements ReplyPost
 
     public function byPostId(PostId $postId): array
     {
-        $query = "SELECT r.id as RepId, r.post_id as RepPost, 
+        $query = "SELECT r.id as RepId, r.post_id, 
                 u.fullname as RepFullname, u.username as RepUsername,
                 p.reply_counter, p.repost_counter, p.share_counter, 
                 p.title, p.content, p.created_at, r.original_post_id, p.user_id

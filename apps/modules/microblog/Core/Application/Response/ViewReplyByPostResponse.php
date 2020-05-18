@@ -24,6 +24,8 @@ class ViewReplyByPostResponse extends GenericResponse
          */
         foreach ($model as $reply) {
             $replies[] = (object)[
+                'repId' => $reply->getId(),
+                'postId' => $reply->getReply()->getId()->getId(),
                 'repTitle' => $reply->getReply()->getTitle(),
                 'repContent' => $reply->getReply()->getContent(),
                 'repUsername' => $reply->getReply()->getUser()->getUsername(),

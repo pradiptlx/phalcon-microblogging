@@ -127,30 +127,50 @@
                             {% if replies is defined %}
                                 {% for reply in replies %}
                                     <div class="card my-3">
+                                        <div class="card-header">
+                                            {{ reply.repTitle }}
+                                        </div>
                                         <div class="card-body">
-                                            {{ reply.RepContent }}
+                                            {{ reply.repContent }}
                                         </div>
                                         <div class="card-footer">
-                                            <small> By: {{ reply.RepFullname }} at {{ reply.RepCreatedAt }}</small>
+                                            <small> By: {{ reply.repFullname }} at {{ reply.repCreatedDate }}</small>
                                             <button type="button" class="float-right btn btn-sm"
                                                     id="replyButton" data-toggle="collapse"
-                                                    data-target="#replyForm_{{ reply.RepId }}"><i
+                                                    data-target="#replyForm_{{ reply.repId }}"><i
                                                         class="fas fa-reply"></i> Reply
                                             </button>
 
-                                            <div class="collapse" id="replyForm_{{ reply.RepId }}">
+                                            <div class="collapse" id="replyForm_{{ reply.repId }}">
                                                 <div class="card card-body">
-                                                    <form action="{{ url("/post/"~post.id~"/replyPost/"~reply.RepId) }}"
+                                                    <form action="{{ url("/post/"~reply.postId~"/replyPost") }}"
                                                           method="post">
-                                                        <div class="form-group">
-                                                            <label for="replyContent">Reply Something</label>
-                                                            <textarea maxlength="120" name="content" id="replyContent"
-                                                                      placeholder="What's on your mind?"></textarea>
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="staticBackdropLabel">New Reply</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="titleInput">Title</label>
+                                                                    <input class="form-control" id="titleInput" name="title"/>
+                                                                </div>
+                                                                <div class="form-group">
+                                                    <textarea maxlength="120" name="content" id="replyContent"
+                                                              placeholder="What's on your mind?"></textarea>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                    Close
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                            </div>
                                                         </div>
-                                                        <button type="submit"
-                                                                class="btn btn-sm btn-secondary"
-                                                        ><i class="fas fa-paper-plane"></i> Reply
-                                                        </button>
                                                     </form>
                                                 </div>
                                             </div>
