@@ -43,12 +43,7 @@
 {#        </div>#}
 
 
-<<<<<<< HEAD
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-=======
-<script
-        src="https://code.jquery.com/jquery-3.5.1.min.js"
->>>>>>> 2093c6f53740599bf25a9923504cd7c08cb8f743
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
