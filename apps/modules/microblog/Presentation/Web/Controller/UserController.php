@@ -20,9 +20,9 @@ class UserController extends Controller
 {
     private CreateUserAccountService $createUserAccountService;
     private UserLoginService $userLoginService;
+    private ShowDashboardService $showDasboardService;
     private SearchUserService $searchUserService;
     private ChangeProfileService $changeProfileService;
-    private ShowDashboardService $showDashboardService;
 
     public function initialize()
     {
@@ -70,7 +70,7 @@ class UserController extends Controller
             new UserId($user_id)
         );
 
-        $response = $this->showDashboardService->execute($request);
+        $response = $this->showDasboardService->execute($request);
         if ($response->getError()) {
             $this->flashSession->error($response->getCode() . ' ' . $response->getMessage());
             return $this->response->redirect('/');
