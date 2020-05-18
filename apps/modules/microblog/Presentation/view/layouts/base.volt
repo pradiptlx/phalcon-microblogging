@@ -84,13 +84,18 @@
                 };
             },
             processResults: function (data) {
+                console.log(data);
                 return {
-                    results: data.username
+                    results: data.results
                 };
             }
         },
         minimumInputLength: 1,
         placeholder: 'Search for username',
+    });
+
+    $('.search-ajax').on('select2:select', function (e) {
+        window.location.href = "{{ this.url.getBaseUri() }}user/dashboard/"+e.params.data.id;
     });
 </script>
 {% block js %}

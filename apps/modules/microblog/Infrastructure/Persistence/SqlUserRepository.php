@@ -90,9 +90,9 @@ class SqlUserRepository implements UserRepository
         return null;
     }
     
-    public function searchUsername(string $keyword): ?UserModel
+    public function searchUsername(string $keyword): ?array
     {
-        $userRecords = UserRecord::findFirst([
+        $userRecords = UserRecord::find([
             'conditions' => 'username LIKE :username:',
             'bind' => [
                 'username' => '%'.$keyword.'%'
@@ -103,7 +103,18 @@ class SqlUserRepository implements UserRepository
             return null;
         }
 
-        return $this->parsingRecord($userRecords);
+        $users = [];
+        foreach ($userRecords as $record) {
+            $users[] = new UserModel(
+                new UserId($record->id),
+                $record->username,
+                $record->fullname,
+                $record->email,
+                $record->password,
+            );
+        }
+
+        return $users;
     }
 
 

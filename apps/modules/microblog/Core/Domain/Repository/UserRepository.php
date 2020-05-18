@@ -16,5 +16,5 @@ interface UserRepository
 
     public function getPassword(UserId $userId);
 
-    public function searchUsername(string $keyword): ?UserModel;
+    public function searchUsername(string $keyword): ?array;
 }
