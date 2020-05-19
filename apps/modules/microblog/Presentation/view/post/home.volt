@@ -112,7 +112,7 @@
                                                 {{ post.content }}
                                             </p>
                                             <small class="post-meta">Posted by
-                                                <a href="{{ url('user/findUser/'~post.username) }}">{{ post.fullname }}</a>
+                                                <a href="{{ url('user/findUser/'~post.id) }}">{{ post.fullname }}</a>
                                                 <small>{{ post.created_at }}</small></small>
                                         </div>
                                         <div class="card-footer">
@@ -180,7 +180,7 @@
                                         {{ post.content }}
                                     </p>
                                     <small class="post-meta">Posted by
-                                        <a href="{{ url('user/findUser/'~post.username) }}">{{ post.fullname }}</a>
+                                        <a href="{{ url('user/findUser/'~post.id) }}">{{ post.fullname }}</a>
                                         <small>{{ post.created_at }}</small></small>
                                 </div>
                                 <div class="card-footer">
