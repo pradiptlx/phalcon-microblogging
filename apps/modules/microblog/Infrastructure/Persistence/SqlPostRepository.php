@@ -78,7 +78,8 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
                     u.email, u.password
                     FROM Dex\Microblog\Infrastructure\Persistence\Record\PostRecord p
                     JOIN Dex\Microblog\Infrastructure\Persistence\Record\UserRecord u 
-                    on p.user_id = :userId:'
+                    on p.user_id = u.id
+                    WHERE u.id = :userId:'
         );
 
         $postsRecord = $query->execute(

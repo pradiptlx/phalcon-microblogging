@@ -102,7 +102,7 @@
                                 </a>
                             </li>
 
-                            {% if (user_id is defined and user_id|upper == user.getId().getId()) %}
+                            {% if (self == true) %}
                                 <li class="nav-item" id="liAcc">
                                     <a href="#account" class="nav-link" id="accountSettingsLink">
                                         <i class="fas fa-user-circle"></i>
@@ -125,7 +125,7 @@
                                     {{ post.title }}
                                 </a>
 
-                                {% if user_id is defined and user_id|upper == user.getId().getId() %}
+                                {% if self == true %}
                                     <form class="float-right" action="{{ url('/post/'~post.id~'/deletePost') }}"
                                           method="post">
                                         <input type="hidden" name="postId" value="{{ post.id }}">
