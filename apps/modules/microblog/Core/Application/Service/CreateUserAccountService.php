@@ -22,7 +22,6 @@ class CreateUserAccountService extends Injectable
 
     public function execute(CreateUserAccountRequest $request): CreateUserAccountResponse
     {
-        //TODO: FIX role creation
 
         $userModel = new UserModel(
             $request->userId,

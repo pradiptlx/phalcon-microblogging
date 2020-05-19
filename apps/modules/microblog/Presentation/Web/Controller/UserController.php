@@ -167,7 +167,6 @@ class UserController extends Controller
                 password_hash($this->request->getPost('password', 'string'), PASSWORD_BCRYPT)
             );
 
-            // TODO: Create role registration
             $response = $this->createUserAccountService->execute($request);
 
             if ($response->getError()) {
@@ -239,7 +238,7 @@ class UserController extends Controller
         return $this->response->redirect('user/login');
     }
 
-    public function findUserAction() 
+    public function findUserAction()
     {
         $keyword = $this->request->get('q');
         $request = new SearchUserRequest($keyword);
@@ -274,11 +273,11 @@ class UserController extends Controller
                         $this->flashSession->warning($response->getMessage());
                     }
                     return $this->response->redirect('user/dashboard');
-                    
+
                 }
             }
             return $this->response->redirect('user/login');
-            
+
         } else if ($this->request->isPost()) {
             if (!$this->security->checkToken()) {
                 $this->flashSession->error('Session error! refresh halaman');

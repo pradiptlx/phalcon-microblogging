@@ -24,7 +24,6 @@ class CreatePostRequest
         $this->id = new PostId();
         $this->title = $title;
         $this->content = $content;
-        // TODO: fix file manager model
         $this->files = $files;
         $this->user_id = $user_id;
     }
