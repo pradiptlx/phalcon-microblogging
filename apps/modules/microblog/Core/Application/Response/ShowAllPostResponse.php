@@ -44,7 +44,8 @@ class ShowAllPostResponse extends GenericResponse
                     'file' => (object)[
                         'path' => $datas[1][$i][0]->getPath() . '/' . $datas[1][$i][0]->getFilename(),
                         'filename' => $datas[1][$i][0]->getFilename()
-                    ]
+                    ],
+                    'user_id' => $datas[0][$i]->getUser()->getId()->getId()
                 ];
             } else {
                 $listPosts[] = (object)[
@@ -57,7 +58,8 @@ class ShowAllPostResponse extends GenericResponse
                     'created_at' => $datas[0][$i]->getCreatedDate(),
                     'username' => $datas[0][$i]->getUser()->getUsername(),
                     'fullname' => $datas[0][$i]->getUser()->getFullname(),
-                    'file' => null
+                    'file' => null,
+                    'user_id' => $datas[0][$i]->getUser()->getId()->getId()
                 ];
             }
         }

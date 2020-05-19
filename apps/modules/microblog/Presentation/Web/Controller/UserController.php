@@ -243,6 +243,9 @@ class UserController extends Controller
 
     public function findUserAction()
     {
+        if(!$this->request->isAjax()){
+            $keyword = $this->router->getParams()[0];
+        }
         $keyword = $this->request->get('q');
         $request = new SearchUserRequest($keyword);
         $response = $this->searchUserService->execute($request);
@@ -258,6 +261,7 @@ class UserController extends Controller
             }
         }
 
+        if(!$this->request->isAjax())
         return $this->response->setJsonContent($json_response);
     }
 
