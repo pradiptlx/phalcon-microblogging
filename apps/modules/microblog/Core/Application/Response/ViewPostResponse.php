@@ -13,8 +13,10 @@ class ViewPostResponse extends GenericResponse
         parent::__construct($this->parsingModel($data), $message, $code, $error);
     }
 
-    private function parsingModel(array $datas)
+    private function parsingModel(array $datas = null)
     {
+        if(empty($datas))
+            return null;
         if (!empty($datas[1])) {
             return (object)[
                 'id' => $datas[0]->getId()->getId(),

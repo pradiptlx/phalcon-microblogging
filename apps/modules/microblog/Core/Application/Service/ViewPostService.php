@@ -28,6 +28,9 @@ class ViewPostService
         $idPostModel = $request->postId;
 
         $post = $this->postRepository->byId($idPostModel);
+        if(!isset($post)){
+            return new ViewPostResponse(null, "Post Not Found", 200, true);
+        }
         $file = $this->fileManagerRepository->byPostId($idPostModel->getId());
 
         $data = [
