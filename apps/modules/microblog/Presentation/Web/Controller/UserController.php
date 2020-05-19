@@ -191,6 +191,10 @@ class UserController extends Controller
         $request = $this->request;
 
         if ($request->isPost()) {
+            if (!$this->security->checkToken()) {
+                $this->flashSession->error('Session error! refresh halaman');
+                return $this->response->redirect('user/login');
+            }
             $username = $request->getPost('username', 'string');
             $password = $request->getPost('password', 'string');
 
@@ -276,6 +280,10 @@ class UserController extends Controller
             return $this->response->redirect('user/login');
             
         } else if ($this->request->isPost()) {
+            if (!$this->security->checkToken()) {
+                $this->flashSession->error('Session error! refresh halaman');
+                return $this->response->redirect('user/login');
+            }
             $email = $this->request->getPost('email','string');
             $request = new ForgotPasswordRequest($email);
 

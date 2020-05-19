@@ -15,6 +15,7 @@
         <div class="container-login100">
             <div class="wrap-login100">
                 <form class="login100-form validate-form" method="post" action="{{ url('/user/login') }}">
+                    <input type="text" name="{{ this.security.getTokenKey() }}" id="" value='{{ this.security.getToken() }}' hidden>
 					<span class="login100-form-title p-b-34">
 						Account Login
 					</span>
