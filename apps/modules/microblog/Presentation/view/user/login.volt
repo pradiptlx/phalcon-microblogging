@@ -71,6 +71,7 @@
         </div>
         <div class="modal-body">
             <form action="{{url('user/forgotPassword') }}" method="post">
+                <input type="text" name="{{ this.security.getTokenKey() }}" id="" value='{{ this.security.getToken() }}' hidden>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
                     <input type="email" class="form-control" name='email' id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
