@@ -70,6 +70,9 @@ class UserController extends Controller
 
         if ($user_id == '') {
             $user_id = $this->session->get('user_id');
+            $this->view->setVar('self', true);
+        }else{
+            $this->view->setVar('self', false);
         }
 
         $dashboardCollection = $this->assets->collection('dashboardCss');
@@ -88,7 +91,7 @@ class UserController extends Controller
             $userPosts = $resData['posts'];
             $user = $resData['user'];
             $this->view->setVar('posts', $userPosts);
-            $this->view->setVar('self', true);
+
             $this->view->setVar('user', $user);
             $this->view->setVar('user_id', $user_id);
             $this->view->setVar('title', 'Dashboard');

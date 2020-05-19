@@ -73,7 +73,7 @@ class PostController extends Controller
         $request = $this->request;
 
         if ($request->isPost()) {
-            if($this->security->getSessionToken() !== $this->security->getRequestToken()){
+            if ($this->security->getSessionToken() !== $this->security->getRequestToken()) {
                 $this->flashSession->error('Error Session, refresh again');
                 return $this->response->redirect('');
             }
