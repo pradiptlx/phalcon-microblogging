@@ -24,6 +24,14 @@ return new Config(
             'dbname' => getenv('DB_NAME'),
         ],
 
+        'mail' => [
+            'driver' => getenv('MAIL_DRIVER'),
+            'username' => getenv('MAIL_SMTP_USERNAME'),
+            'password' => getenv('MAIL_SMTP_PASSWORD'),
+            'host' => getenv('MAIL_SMTP_HOST'),
+            'port' => getenv('MAIL_SMTP_PORT'),
+        ],
+
         'version' => '1.0',
     ]
 );

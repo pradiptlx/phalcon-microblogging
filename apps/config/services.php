@@ -171,3 +171,11 @@ $container['db'] = function () use ($config) {
         "dbname" => $config->database->dbname
     ]);
 };
+
+$container->set('mailer', function() use ($config) {
+    $transporter = new Swift_SmtpTransport($config->mail->host, $config->mail->port);
+    $transporter->setUsername($config->mail->username);
+    $transporter->setPassword($config->mail->password);
+
+    return new Swift_Mailer($transporter);
+});

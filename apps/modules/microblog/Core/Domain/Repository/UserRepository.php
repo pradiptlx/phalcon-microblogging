@@ -12,6 +12,8 @@ interface UserRepository
 
     public function byUsername(string $username): ?UserModel;
 
+    public function byEmail(string $email): ?UserModel;
+
     public function saveUser(UserModel $user);
 
     public function changeProfile(array $data, UserId $userId);

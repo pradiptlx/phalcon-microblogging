@@ -5,6 +5,8 @@ use Dex\Microblog\Core\Application\Service\CreatePostService;
 use Dex\Microblog\Core\Application\Service\CreateReplyService;
 use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
 use Dex\Microblog\Core\Application\Service\DeletePostService;
+use Dex\Microblog\Core\Application\Service\ForgotPasswordLoginService;
+use Dex\Microblog\Core\Application\Service\ForgotPasswordService;
 use Dex\Microblog\Core\Application\Service\GetAllFilesService;
 use Dex\Microblog\Core\Application\Service\SearchUserService;
 use Dex\Microblog\Core\Application\Service\ShowAllPostService;
@@ -110,8 +112,22 @@ $di->set('searchUserService', function () use($di){
         $di->get('sqlUserRepository')
     );
 });
+
 $di->set('changeProfileService', function () use($di){
     return new ChangeProfileService(
+        $di->get('sqlUserRepository')
+    );
+});
+
+$di->set('forgotPasswordService', function () use($di){
+    return new ForgotPasswordService(
+        $di->get('sqlUserRepository'),
+        $di->get('mailer')
+    );
+});
+
+$di->set('forgotPasswordLoginService', function () use($di){
+    return new ForgotPasswordLoginService(
         $di->get('sqlUserRepository')
     );
 });

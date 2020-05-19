@@ -4,7 +4,8 @@
         "ramsey/uuid": "^4.0",
       "ext-mbstring": "*",
       "ext-pdo": "*",
-        "robmorgan/phinx": "^0.12.1"
+        "robmorgan/phinx": "^0.12.1",
+        "phalcon-ext/mailer": "^2.1"
     },
     "require-dev": {
         "phalcon/ide-stubs": "^4.0"

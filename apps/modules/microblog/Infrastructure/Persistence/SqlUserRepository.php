@@ -49,6 +49,13 @@ class SqlUserRepository implements UserRepository
         return $this->parsingRecord($userRecord);
     }
 
+    public function byEmail(string $email): ?UserModel
+    {
+        $userRecord = UserRecord::findFirstByEmail($email);
+
+        return $this->parsingRecord($userRecord);
+    }
+
     public function saveUser(UserModel $user)
     {
         $trans = (new Manager())->get();

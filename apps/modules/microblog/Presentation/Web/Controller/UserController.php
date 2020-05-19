@@ -5,16 +5,21 @@ namespace Dex\Microblog\Presentation\Web\Controller;
 
 use Dex\Microblog\Core\Application\Request\ChangeProfileRequest;
 use Dex\Microblog\Core\Application\Request\CreateUserAccountRequest;
+use Dex\Microblog\Core\Application\Request\ForgotPasswordLoginRequest;
+use Dex\Microblog\Core\Application\Request\ForgotPasswordRequest;
 use Dex\Microblog\Core\Application\Request\SearchUserRequest;
 use Dex\Microblog\Core\Application\Request\ShowDashboardRequest;
 use Dex\Microblog\Core\Application\Request\UserLoginRequest;
 use Dex\Microblog\Core\Application\Service\ChangeProfileService;
 use Dex\Microblog\Core\Application\Service\CreateUserAccountService;
+use Dex\Microblog\Core\Application\Service\ForgotPasswordLoginService;
+use Dex\Microblog\Core\Application\Service\ForgotPasswordService;
 use Dex\Microblog\Core\Application\Service\SearchUserService;
 use Dex\Microblog\Core\Application\Service\ShowDashboardService;
 use Dex\Microblog\Core\Application\Service\UserLoginService;
 use Dex\Microblog\Core\Domain\Model\UserId;
 use Phalcon\Mvc\Controller;
+use Swift_Mailer;
 
 class UserController extends Controller
 {
@@ -23,6 +28,8 @@ class UserController extends Controller
     private ShowDashboardService $showDasboardService;
     private SearchUserService $searchUserService;
     private ChangeProfileService $changeProfileService;
+    private ForgotPasswordService $forgotPasswordService;
+    private ForgotPasswordLoginService $forgotPasswordLoginService;
 
     public function initialize()
     {
@@ -31,6 +38,8 @@ class UserController extends Controller
         $this->showDasboardService = $this->di->get('showDashboardService');
         $this->searchUserService = $this->di->get('searchUserService');
         $this->changeProfileService = $this->di->get('changeProfileService');
+        $this->forgotPasswordService = $this->di->get('forgotPasswordService');
+        $this->forgotPasswordLoginService = $this->di->get('forgotPasswordLoginService');
 
         if (is_null($this->router->getActionName())) {
             $this->response->redirect('user/login');
@@ -244,6 +253,38 @@ class UserController extends Controller
         }
 
         return $this->response->setJsonContent($json_response);
+    }
+
+    public function forgotPasswordAction($token='') {
+        if ($this->request->isGet()) {
+            if ($this->session->has('reset_token') && $this->session->has('email')) {
+                if ($this->session->get('reset_token') == $token) {
+                    $request = new ForgotPasswordLoginRequest($this->session->get('email'));
+                    $response = $this->forgotPasswordLoginService->execute($request);
+                    $this->session->remove('email');
+                    $this->session->remove('reset_token');
+                    if ($response->getError()) {
+                        $this->flashSession->error($response->getCode() . ' ' . $response->getMessage());
+                        return $this->response->redirect('user/login');
+                    } else {
+                        $this->flashSession->warning($response->getMessage());
+                    }
+                    return $this->response->redirect('user/dashboard');
+                    
+                }
+            }
+            return $this->response->redirect('user/login');
+            
+        } else if ($this->request->isPost()) {
+            $email = $this->request->getPost('email','string');
+            $request = new ForgotPasswordRequest($email);
+
+            $response = $this->forgotPasswordService->execute($request);
+            $this->session->set('reset_token','12345');
+            $this->session->set('email',$email);
+            $this->flashSession->success("Email sudah dikirim");
+            return $this->response->redirect('user/login');
+        }
     }
 
 }

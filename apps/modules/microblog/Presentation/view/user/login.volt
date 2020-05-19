@@ -49,12 +49,37 @@
                             Sign Up
                         </a>
                     </div>
+                    <a href="#" style='color:blue' data-toggle="modal" data-target="#exampleModal">Forgot Password</a>
                 </form>
 
                 <div class="login100-more" style="background-image: url('{{ url('/img/georgiana-sparks-1KkjeJgtOxE-unsplash.jpg') }}');"></div>
             </div>
         </div>
     </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Forgot Password</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form action="{{url('user/forgotPassword') }}" method="post">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" name='email' id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
