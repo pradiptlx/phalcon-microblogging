@@ -50,8 +50,6 @@ class SqlPostRepository extends Di\Injectable implements PostRepository
             ]
         );
 
-        if(empty($postRecords->next()))
-            return null;
 
         foreach ($postRecords as $postRecord) {
             return new PostModel(
