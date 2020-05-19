@@ -73,6 +73,10 @@ class PostController extends Controller
         $request = $this->request;
 
         if ($request->isPost()) {
+            if(!$this->security->checkToken()){
+                $this->flashSession->error('Error Session, refresh again');
+                return $this->response->redirect('');
+            }
             $title = $request->getPost('title', 'string');
             $content = $request->getPost('content', 'string');
             $user_id = $this->session->get('user_id');

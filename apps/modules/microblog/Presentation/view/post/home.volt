@@ -29,6 +29,8 @@
                 <div class="card bg-dark text-white">
                     <div class="card-body">
                         <form action="{{ url('post/createPost') }}" method="post" enctype="multipart/form-data">
+                            <input type='hidden' name='<?php echo $this->security->getTokenKey() ?>'
+                                   value='<?php echo $this->security->getToken() ?>'/>
                             <div class="form-group">
                                 <label for="titleArea">Title</label>
                                 <input class="form-control" id="titleArea" name="title"/>
