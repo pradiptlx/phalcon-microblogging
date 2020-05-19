@@ -34,6 +34,9 @@ class ShowDashboardService extends \Phalcon\Di\Injectable
          * @var UserModel $post
          */
         $user = $this->userRepository->byId($userId);
+        if ($user == null) {
+            return new ShowDashboardResponse($user, $posts, 'No user found', 400, true);
+        }
 
         return new ShowDashboardResponse($user, $posts, 'Show Post by User', 200, false);
 
