@@ -241,24 +241,29 @@ class UserController extends Controller
         return $this->response->redirect('user/login');
     }
 
-    public function findUserAction()
+    public function findUserAction($id = '')
     {
-        $keyword = $this->request->get('q');
-        $request = new SearchUserRequest($keyword);
-        $response = $this->searchUserService->execute($request);
-        $json_response['results'] = [];
-        if ($response->getData()) {
-            $response_data = $response->getData();
-            foreach ($response_data as $items) {
-                $tmp_json[] = array(
-                    'id' => $items->getId()->getId(),
-                    'text' => $items->getUsername()
-                );
-                $json_response['results'] += $tmp_json;
+        if ($this->request->isAjax()) {
+            $keyword = $this->request->get('q');
+            $request = new SearchUserRequest($keyword);
+            $response = $this->searchUserService->execute($request);
+            $json_response['results'] = [];
+            if ($response->getData()) {
+                $response_data = $response->getData();
+                foreach ($response_data as $items) {
+                    $tmp_json[] = array(
+                        'id' => $items->getId()->getId(),
+                        'text' => $items->getUsername()
+                    );
+                    $json_response['results'] += $tmp_json;
+                }
             }
+    
+            return $this->response->setJsonContent($json_response);
+        } else {
+            return $this->response->redirect('user/dashboard/'.$id);
         }
 
-        return $this->response->setJsonContent($json_response);
     }
 
     public function forgotPasswordAction($token='') {
