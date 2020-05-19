@@ -4,3 +4,6 @@ insert into dbo.reply (id, post_id, original_post_id) values (4, N'e84ca263-6377
 insert into dbo.reply (id, post_id, original_post_id) values (5, N'd37cc27c-f002-4e2a-9c5f-e2650b6ac799', N'254986D8-BD0E-4D89-A3D3-E2989596FF07');
 insert into dbo.reply (id, post_id, original_post_id) values (6, N'49a62658-43e5-4851-8837-2ab0c9d529e4', N'254986D8-BD0E-4D89-A3D3-E2989596FF07');
 insert into dbo.reply (id, post_id, original_post_id) values (7, N'5b220b54-8a60-4a54-b613-2a095cde022c', N'254986D8-BD0E-4D89-A3D3-E2989596FF07');
+insert into dbo.reply (id, post_id, original_post_id) values (8, N'4c233ef0-f9a0-4414-8175-81ceb71b3164', N'B5C64A71-91A5-4369-B5BC-38EAAE35FB5B');
+insert into dbo.reply (id, post_id, original_post_id) values (9, N'13a4161e-eb43-436c-a52c-56e3d92767cd', N'A1982EAD-7E82-4330-8A68-E3F01E2E1CD8');
+insert into dbo.reply (id, post_id, original_post_id) values (10, N'f26bfef2-ca66-4bdd-a224-279f092b53b5', N'B5C64A71-91A5-4369-B5BC-38EAAE35FB5B');

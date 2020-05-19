@@ -1,0 +1,1 @@
+insert into dbo.files_manager (id, file_name, path, post_id) values (N'15966A30-0C9A-41C1-B0C2-60656AF2E979', N'3643eb8633786477120ff31a7226a72745c847a6.png', N'files/1E9FEB38-95B9-45D3-A556-FE5AC32EFE91/b5c64a71-91a5-4369-b5bc-38eaae35fb5b', N'b5c64a71-91a5-4369-b5bc-38eaae35fb5b');
