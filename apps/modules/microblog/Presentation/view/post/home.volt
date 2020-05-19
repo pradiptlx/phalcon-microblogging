@@ -132,18 +132,34 @@
 
                                             <div class="collapse" id="replyForm_{{ post.id }}">
                                                 <div class="card card-body" style="max-width: 475px">
-                                                    <form action="post/{{ post.id }}/replyPost" method="post">
-                                                        <div class="form-group">
-                                                            <label for="replyContent">Reply Something</label>
-                                                            <textarea maxlength="120" name="content"
-                                                                      id="replyContent"
-                                                                      placeholder="What's on your mind?"
-                                                                      class="w-75"></textarea>
+                                                    <form action="{{ url("/post/"~post.id~"/replyPost") }}"
+                                                          method="post">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="staticBackdropLabel">New Reply</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="titleInput">Title</label>
+                                                                    <input class="form-control" id="titleInput" name="title"/>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <textarea maxlength="120" style="max-width: 80%;" name="content" id="replyContent"
+                                                              placeholder="What's on your mind?"></textarea>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                    Close
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                            </div>
                                                         </div>
-                                                        <button type="submit"
-                                                                class="btn btn-sm btn-secondary"
-                                                        ><i class="fas fa-reply"></i> Reply
-                                                        </button>
                                                     </form>
                                                 </div>
                                             </div>
